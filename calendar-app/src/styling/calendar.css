@@ -1,0 +1,41 @@
+.calendar-positioner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.calendar-container {
+    border: 1px solid black;
+    height: 800px;
+    width: 1000px;
+}
+
+.day-names {
+    width: 990px;
+    height: 40px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.days-of-week {
+    border: 1px solid black;
+    height: 40px;
+}
+
+.week-day {
+    font-size: 12px;
+}
+
+.week-row {
+    height: 147px;
+    width: 138.2px;
+    border: 1px solid black;
+}
+
+.grid-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-auto-flow: dense;
+}
