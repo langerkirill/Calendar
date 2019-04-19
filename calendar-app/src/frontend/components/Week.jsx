@@ -1,25 +1,31 @@
-import React, { Component, Fragment } from 'react';
-import '../../styling/week.css'
+import React, { Component, Fragment } from 'react'
+import '../styling/week.css'
+import Modal from './Modal'
 
 class Week extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            modal: false
+            modal: false,
+            dayNumber: null
         }
     }
 
     handleClick(dayNumber){
-        this.setState({modal: true})
-
+        this.setState({modal: true, dayNumber})
     }
+    
+    // {this.state.modal ? <Modal handleClose={() => this.setState({modal: false})} date={this.state.dayNumber}/> : null}
 
     render(){
         return (
             <Fragment>
+                {this.state.modal ? <Modal 
+                    title={`Schedule your event for the selected day (${this.state.dayNumber}) below:`}
+                    handleClose={() => this.setState({modal: false})} /> : null}
                 <td onClick={() => this.handleClick(this.props.dayNumbers[0])} className='week-row 1'>
-                    <div className='day-number'>{() => this.props.dayNumbers[0]}</div>
+                    <div className='day-number'>{this.props.dayNumbers[0]}</div>
                 </td>
                 <td onClick={() => this.handleClick(this.props.dayNumbers[1])} className='week-row 2'>
                     <div className='day-number'>{this.props.dayNumbers[1]}</div>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import '../../styling/calendar.css'
+import '../styling/calendar.css'
 import Week from '../components/Week'
 import WeekDayNames from '../components/WeekDayNames'
 import moment from 'moment'

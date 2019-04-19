@@ -1,0 +1,43 @@
+.modal-container {
+    position: fixed;
+    background:rgba(255,255,255,0.8);
+    height: 800px;
+    width: 1000px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+}
+
+.modal-class {
+    border: 1px solid black;
+    background: white;
+    width: 400px;
+    margin: auto;
+    height: 300px;
+    position: relative;
+}
+
+.modal-header {
+    margin-top: 20px;
+}
+
+.modal-buttons {
+    margin: auto;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.modal-button {
+    font-size: 30px;
+    margin-left: 10px;
+    margin-right: 10px;
+    background: white;
+    margin-bottom: 20px;
+}
+
+.modal-form-container {
+    margin-top: 30px;
+}
