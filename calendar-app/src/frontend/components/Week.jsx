@@ -1,6 +1,9 @@
 import React, { Component, Fragment } from 'react'
 import '../styling/week.css'
 import Modal from './Modal'
+import { connect } from 'react-redux'
+import { addEvent } from '../../actions/eventActions'
+import moment from 'moment'
 
 class Week extends Component {
 
@@ -10,18 +13,33 @@ class Week extends Component {
             modal: false,
             dayNumber: null
         }
+        this.handleSumbit = this.handleSumbit.bind(this)
     }
 
     handleClick(dayNumber){
         this.setState({modal: true, dayNumber})
     }
-    
-    // {this.state.modal ? <Modal handleClose={() => this.setState({modal: false})} date={this.state.dayNumber}/> : null}
 
+    formatTime(event){
+        const year = moment().year()
+        let month =  moment().month()
+        if (month.length === 1) month = "0" + month
+        const day = this.state.dayNumber
+        const eventTime = moment(`${year}-${month}-${day} ${event.eventTime}`, "YYYY-MM-DD HH:mm A")
+        event['eventTime'] = eventTime
+        return event
+    }
+
+    handleSumbit(event) {
+        this.formatTime(event)
+        this.props.addEvent(event)
+    }
+    
     render(){
         return (
             <Fragment>
                 {this.state.modal ? <Modal 
+                    onSubmit={this.handleSumbit}
                     title={`Schedule your event for the selected day (${this.state.dayNumber}) below:`}
                     handleClose={() => this.setState({modal: false})} /> : null}
                 <td onClick={() => this.handleClick(this.props.dayNumbers[0])} className='week-row 1'>
@@ -50,4 +68,19 @@ class Week extends Component {
     }
 }
 
-export default Week;
+const mapStateToProps = state => {
+
+    debugger
+
+    return {
+        state
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        addEvent: (event) => dispatch(addEvent(event))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Week);

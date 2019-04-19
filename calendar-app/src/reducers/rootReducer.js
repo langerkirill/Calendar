@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
-import simpleReducer from './simpleReducer';
+import eventReducer from './eventReducer';
 
 
 export default combineReducers({
-    simpleReducer
+    eventReducer
 });

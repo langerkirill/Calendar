@@ -1,28 +1,30 @@
-import React, { Component, Fragment } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component, Fragment } from 'react'
+import PropTypes from 'prop-types'
 import '../styling/Modal.css'
 import { timesArray } from '../../utils/timesArray.js'
+import moment from 'moment'
 
 class Modal extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props)
         this.state = {
-            formText: '',
-            formTime: null
+            eventTitle: '',
+            eventTime: null
         }
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleChange = this.handleChange.bind(this)
     }
 
     handleChange(e) {
-        const formText = e.target.value
-        this.setState({ formText })
+        this.setState({ [e.target.name]: e.target.value })
     }
 
     handleSubmit(e) {
         e.preventDefault()
-        debugger
+        if (this.state.eventTitle === '' || this.state.eventTime === null) return
+        this.props.onSubmit(this.state, this.props.da)
+        this.props.handleClose()
     }
 
     timeOptions() {
@@ -34,8 +36,7 @@ class Modal extends Component {
             id,
             style,
             handleClose,
-            handleConfirm,
-            title,
+            title
         } = this.props
 
         return (
@@ -45,16 +46,19 @@ class Modal extends Component {
                         {title ? <div className='modal-title'>{title}</div> : null}
                     </div>
                     <div className='modal-form-container'>
-                        <form >
-                            <label> Event Name
-                                <input onChange={(e) => this.handleChange(e)} defaultValue={this.state.formText}></input>
-                            </label>
-                            <br></br>
-                            <label> Time
-                                <select>
+                        <form className='modal-form'>
+                            <div className='modal-input'>
+                                <label className='modal-label'> Event Name
+                                </label>
+                                <input name='eventTitle' onChange={(e) => this.handleChange(e)} defaultValue={this.state.formText}></input>
+                            </div>
+                            <div className='modal-input'>
+                                <label className='modal-label'> Time
+                                </label>
+                                <select name='eventTime' onChange={this.handleChange}>
                                     {this.timeOptions()}
                                 </select>
-                            </label>
+                            </div>
                         </form>
                     </div>
                     <div>
@@ -69,8 +73,8 @@ class Modal extends Component {
                     </div>
                 </div>
             </div>
-        );
-    };
+        )
+    }
 }
 
 Modal.propTypes = {
@@ -84,6 +88,6 @@ Modal.propTypes = {
     buttonText: PropTypes.string,
     buttons: PropTypes.element,
     fullPage: PropTypes.bool,
-};
+}
 
-export default Modal;
+export default Modal

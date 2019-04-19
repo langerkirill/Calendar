@@ -2,9 +2,11 @@
 
 export default (state = {}, action) => {
     switch (action.type) {
-        case 'SIMPLE_ACTION':
+        case 'ADD_EVENT':
+            const newState = Object.assign(state, {})
+            
             return {
-                result: action.payload
+                events: action.event
             }
         default:
             return state

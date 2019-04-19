@@ -2,7 +2,7 @@
     position: fixed;
     background:rgba(255,255,255,0.8);
     height: 800px;
-    width: 1000px;
+    width: 997px;
     margin: auto;
     display: flex;
     align-items: center;
@@ -19,6 +19,20 @@
 
 .modal-header {
     margin-top: 20px;
+}
+
+.modal-form {
+    display: flex;
+    justify-content: space-around;
+    height: 120px;
+}
+
+.modal-input {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    align-content: space-between; 
+    justify-content: space-around;
 }
 
 .modal-buttons {
@@ -40,4 +54,8 @@
 
 .modal-form-container {
     margin-top: 30px;
+}
+
+.modal-label {
+    font-size: 20px;
 }
