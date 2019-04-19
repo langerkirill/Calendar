@@ -1,4 +1,5 @@
 export const timesArray = [
+'Select a Time',
 '12:00 AM',
 '12:05 AM',
 '12:10 AM',

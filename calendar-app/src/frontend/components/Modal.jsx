@@ -22,7 +22,9 @@ class Modal extends Component {
 
     handleSubmit(e) {
         e.preventDefault()
-        if (this.state.eventTitle === '' || this.state.eventTime === null) return
+        if (this.state.eventTime === 'Select a Time' 
+            || this.state.eventTitle === '' 
+            || this.state.eventTime === null) return
         this.props.onSubmit(this.state, this.props.da)
         this.props.handleClose()
     }
@@ -40,7 +42,7 @@ class Modal extends Component {
         } = this.props
 
         return (
-            <div className='modal-container' id={id}>
+            <td className='modal-container' id={id}>
                 <div className='modal-class' style={style}>
                     <div className='modal-header'>
                         {title ? <div className='modal-title'>{title}</div> : null}
@@ -50,12 +52,15 @@ class Modal extends Component {
                             <div className='modal-input'>
                                 <label className='modal-label'> Event Name
                                 </label>
-                                <input name='eventTitle' onChange={(e) => this.handleChange(e)} defaultValue={this.state.formText}></input>
+                                <input name='eventTitle' maxLength='15' onChange={(e) => this.handleChange(e)} defaultValue={this.state.formText}></input>
                             </div>
                             <div className='modal-input'>
                                 <label className='modal-label'> Time
                                 </label>
-                                <select name='eventTime' onChange={this.handleChange}>
+                                <select 
+                                    name='eventTime' 
+                                    onChange={this.handleChange}
+                                    defaultValue='Select A Time'>
                                     {this.timeOptions()}
                                 </select>
                             </div>
@@ -72,7 +77,7 @@ class Modal extends Component {
                         </div>
                     </div>
                 </div>
-            </div>
+            </td>
         )
     }
 }

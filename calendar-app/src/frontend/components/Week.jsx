@@ -17,8 +17,10 @@ class Week extends Component {
         this.handleSumbit = this.handleSumbit.bind(this)
     }
 
-    handleClick(dayNumber) {
-        this.setState({ modal: true, dayNumber })
+    handleClick(dayNumber, event) {
+        if (event.target.className !== 'event-row' && event.target.className !== 'delete-button') {
+            this.setState({ modal: true, dayNumber })
+        }
     }
 
     formatTime(event) {
@@ -36,6 +38,15 @@ class Week extends Component {
         this.props.addEvent(event)
     }
 
+    mapDays(){
+        return this.props.dayNumbers.map((dayNumber) => 
+            <Day
+                key={dayNumber}
+                onClick={(e) => this.handleClick(dayNumber, e)}
+                dayNumber={dayNumber} />)
+            
+    }
+
     render() {
         return (
             <Fragment>
@@ -43,27 +54,7 @@ class Week extends Component {
                     onSubmit={this.handleSumbit}
                     title={`Schedule your event for the selected day (${this.state.dayNumber}) below:`}
                     handleClose={() => this.setState({ modal: false })} /> : null}
-                <Day
-                    onClick={() => this.handleClick(this.props.dayNumbers[0])}
-                    dayNumber={this.props.dayNumbers[0]} />
-                <Day
-                    onClick={() => this.handleClick(this.props.dayNumbers[1])}
-                    dayNumber={this.props.dayNumbers[1]} />
-                <Day
-                    onClick={() => this.handleClick(this.props.dayNumbers[2])}
-                    dayNumber={this.props.dayNumbers[2]} />
-                <Day
-                    onClick={() => this.handleClick(this.props.dayNumbers[3])}
-                    dayNumber={this.props.dayNumbers[3]} />
-                <Day
-                    onClick={() => this.handleClick(this.props.dayNumbers[4])}
-                    dayNumber={this.props.dayNumbers[4]} />
-                <Day
-                    onClick={() => this.handleClick(this.props.dayNumbers[5])}
-                    dayNumber={this.props.dayNumbers[5]} />
-                <Day
-                    onClick={() => this.handleClick(this.props.dayNumbers[6])}
-                    dayNumber={this.props.dayNumbers[6]} />
+                {this.mapDays()}
             </Fragment>
         )
     }

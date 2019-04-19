@@ -6,6 +6,7 @@
     margin: auto;
     display: flex;
     align-items: center;
+    z-index: 2;
 }
 
 .modal-class {
