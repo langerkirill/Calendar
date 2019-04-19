@@ -80,7 +80,6 @@ class Calendar extends Component {
         const dayArray = this.getDayArray(daysInMonth)
         this.divideUpDays(firstDay, daysInMonth, daysInLastMonth, dayArray)
         this.setState({ dayArray })
-        console.log(dayArray)
     }
 
     render() {
