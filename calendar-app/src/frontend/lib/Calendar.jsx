@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 import '../../styling/calendar.css'
 import Week from '../components/Week'
 import WeekDayNames from '../components/WeekDayNames'
@@ -10,22 +9,24 @@ class Calendar extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            firstWeekDays: [],
-            secondWeekDays: [],
-            thirdWeekDays: [],
-            fourthWeekDays: [],
-            fifthWeekDays: [],
+            dayArray: []
         }
     }
 
     loadTheDays(firstDay, dayArray, daysToFill, daysInLastMonth){
-        
         while (daysToFill > 0) {
             dayArray.unshift(daysInLastMonth)
             daysInLastMonth--
             daysToFill--
         }
-        console.log(dayArray)
+
+        let i = 1;
+        while (dayArray.length < 35) {
+            dayArray.push(i)
+            i++
+        }
+
+        return dayArray
     }
 
     divideUpDays(firstDay, daysInMonth, daysInLastMonth, dayArray){
@@ -57,7 +58,7 @@ class Calendar extends Component {
                 daysToFill = null;
                 break;
         }
-        this.loadTheDays(firstDay, dayArray, daysToFill, daysInLastMonth)
+        return this.loadTheDays(firstDay, dayArray, daysToFill, daysInLastMonth)
     }
 
     getDayArray(daysInMonth){
@@ -68,7 +69,6 @@ class Calendar extends Component {
             arrDays.unshift(current)
             daysInMonth--
         }
-
         return arrDays
     }
 
@@ -78,7 +78,9 @@ class Calendar extends Component {
         const daysInLastMonth = moment().subtract(1, 'month').daysInMonth()
         const firstDay = moment().startOf('month').format('dddd')
         const dayArray = this.getDayArray(daysInMonth)
-        this.divideUpDays('Wednesday', daysInMonth, daysInLastMonth, dayArray)
+        this.divideUpDays(firstDay, daysInMonth, daysInLastMonth, dayArray)
+        this.setState({ dayArray })
+        console.log(dayArray)
     }
 
     render() {
@@ -93,11 +95,11 @@ class Calendar extends Component {
                         </thead>
                         <tbody className='days-display-grid'>
                             <tr className='grid-days'>
-                                <Week firstDay={this.state.firstDay} />
-                                <Week />
-                                <Week />
-                                <Week />
-                                <Week daysInMonth={this.state.daysInMonth}/>
+                                <Week dayNumbers={this.state.dayArray.slice(0,7)} />
+                                <Week dayNumbers={this.state.dayArray.slice(7,14)} />
+                                <Week dayNumbers={this.state.dayArray.slice(14,21)} />
+                                <Week dayNumbers={this.state.dayArray.slice(21,28)} />
+                                <Week dayNumbers={this.state.dayArray.slice(28)} />
                             </tr>
                         </tbody>
                     </table>
