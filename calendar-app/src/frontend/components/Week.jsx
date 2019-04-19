@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import '../styling/week.css'
 import Modal from './Modal'
+import Day from './Day'
 import { connect } from 'react-redux'
 import { addEvent } from '../../actions/eventActions'
 import moment from 'moment'
@@ -16,13 +17,13 @@ class Week extends Component {
         this.handleSumbit = this.handleSumbit.bind(this)
     }
 
-    handleClick(dayNumber){
-        this.setState({modal: true, dayNumber})
+    handleClick(dayNumber) {
+        this.setState({ modal: true, dayNumber })
     }
 
-    formatTime(event){
+    formatTime(event) {
         const year = moment().year()
-        let month =  moment().month()
+        let month = moment().month()
         if (month.length === 1) month = "0" + month
         const day = this.state.dayNumber
         const eventTime = moment(`${year}-${month}-${day} ${event.eventTime}`, "YYYY-MM-DD HH:mm A")
@@ -34,46 +35,37 @@ class Week extends Component {
         this.formatTime(event)
         this.props.addEvent(event)
     }
-    
-    render(){
+
+    render() {
         return (
             <Fragment>
-                {this.state.modal ? <Modal 
+                {this.state.modal ? <Modal
                     onSubmit={this.handleSumbit}
                     title={`Schedule your event for the selected day (${this.state.dayNumber}) below:`}
-                    handleClose={() => this.setState({modal: false})} /> : null}
-                <td onClick={() => this.handleClick(this.props.dayNumbers[0])} className='week-row 1'>
-                    <div className='day-number'>{this.props.dayNumbers[0]}</div>
-                </td>
-                <td onClick={() => this.handleClick(this.props.dayNumbers[1])} className='week-row 2'>
-                    <div className='day-number'>{this.props.dayNumbers[1]}</div>
-                </td>
-                <td onClick={() => this.handleClick(this.props.dayNumbers[2])} className='week-row 3'>
-                    <div className='day-number'>{this.props.dayNumbers[2]}</div>
-                </td>
-                <td onClick={() => this.handleClick(this.props.dayNumbers[3])} className='week-row 4'>
-                    <div className='day-number'>{this.props.dayNumbers[3]}</div>
-                </td>
-                <td onClick={() => this.handleClick(this.props.dayNumbers[4])} className='week-row 5'>
-                    <div className='day-number'>{this.props.dayNumbers[4]}</div>
-                </td>
-                <td onClick={() => this.handleClick(this.props.dayNumbers[5])} className='week-row 6'>
-                    <div className='day-number'>{this.props.dayNumbers[5]}</div>
-                </td>
-                <td onClick={() => this.handleClick(this.props.dayNumbers[6])} className='week-row 7'>
-                    <div className='day-number'>{this.props.dayNumbers[6]}</div>
-                </td>
+                    handleClose={() => this.setState({ modal: false })} /> : null}
+                <Day
+                    onClick={() => this.handleClick(this.props.dayNumbers[0])}
+                    dayNumber={this.props.dayNumbers[0]} />
+                <Day
+                    onClick={() => this.handleClick(this.props.dayNumbers[1])}
+                    dayNumber={this.props.dayNumbers[1]} />
+                <Day
+                    onClick={() => this.handleClick(this.props.dayNumbers[2])}
+                    dayNumber={this.props.dayNumbers[2]} />
+                <Day
+                    onClick={() => this.handleClick(this.props.dayNumbers[3])}
+                    dayNumber={this.props.dayNumbers[3]} />
+                <Day
+                    onClick={() => this.handleClick(this.props.dayNumbers[4])}
+                    dayNumber={this.props.dayNumbers[4]} />
+                <Day
+                    onClick={() => this.handleClick(this.props.dayNumbers[5])}
+                    dayNumber={this.props.dayNumbers[5]} />
+                <Day
+                    onClick={() => this.handleClick(this.props.dayNumbers[6])}
+                    dayNumber={this.props.dayNumbers[6]} />
             </Fragment>
         )
-    }
-}
-
-const mapStateToProps = state => {
-
-    debugger
-
-    return {
-        state
     }
 }
 
@@ -83,4 +75,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Week);
+export default connect(null, mapDispatchToProps)(Week);
