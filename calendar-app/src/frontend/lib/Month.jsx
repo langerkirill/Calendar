@@ -8,12 +8,16 @@ class Month extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            dayArray: []
+            dayArray: [],
+            monthArray: [],
         }
     }
 
-    loadTheDays(firstDay, dayArray, daysToFill, daysInLastMonth){
+    loadTheDays(dayArray, daysToFill, daysInLastMonth, monthArr){
+        const prependMonth = monthArr[0] - 1
+        const appendMonth = monthArr[0] + 1
         while (daysToFill > 0) {
+            monthArr.unshift(prependMonth)
             dayArray.unshift(daysInLastMonth)
             daysInLastMonth--
             daysToFill--
@@ -22,13 +26,14 @@ class Month extends Component {
         let i = 1;
         while (dayArray.length < 42) {
             dayArray.push(i)
+            monthArr.push(appendMonth)
             i++
         }
 
         return dayArray
     }
 
-    divideUpDays(firstDay, daysInMonth, daysInLastMonth, dayArray){
+    divideUpDays(firstDay, daysInLastMonth, dayArray, monthArr){
         let daysToFill;
         
         switch (firstDay) {
@@ -57,7 +62,7 @@ class Month extends Component {
                 daysToFill = null;
                 break;
         }
-        return this.loadTheDays(firstDay, dayArray, daysToFill, daysInLastMonth)
+        return this.loadTheDays(dayArray, daysToFill, daysInLastMonth, monthArr)
     }
 
     getDayArray(daysInMonth){
@@ -71,25 +76,36 @@ class Month extends Component {
         return arrDays
     }
 
-    getCalendarOutlook(){
-        debugger
+    getMonthArray(daysInMonth, monthNumber){
+        const monthArr = []
+        while (daysInMonth) {
+            monthArr.unshift(monthNumber - 1)
+            daysInMonth--
+        }
+        return monthArr
+    }
+
+    getCalendarOutlook(monthNumber){
         const daysInMonth = this.props.relativeMoment.daysInMonth()
         const daysInLastMonth = this.props.relativeMoment.subtract(1, 'month').daysInMonth()
         const firstDay = this.props.relativeMoment.startOf('month').format('dddd')
         const dayArray = this.getDayArray(daysInMonth)
-        this.divideUpDays(firstDay, daysInMonth, daysInLastMonth, dayArray)
-        this.setState({ dayArray })
+        const monthArray = this.getMonthArray(daysInMonth, monthNumber)
+        this.divideUpDays(firstDay, daysInLastMonth, dayArray, monthArray)
+        this.setState({ dayArray, monthArray })
     }
 
     componentDidUpdate(prevProps){
-        debugger
         if (this.props.relativeMoment._d !== prevProps.relativeMoment._d) {
-            this.getCalendarOutlook()
+            const monthNumber = this.props.relativeMoment.month() + 1
+            this.setState({ monthNumber })
+            this.getCalendarOutlook(monthNumber)
         }
     }
 
     componentDidMount() {
-        this.getCalendarOutlook()
+        const monthNumber = this.props.relativeMoment.month() + 1
+        this.getCalendarOutlook(monthNumber)
     }
 
     render() {
@@ -109,12 +125,24 @@ class Month extends Component {
                         </thead>
                         <tbody className='days-display-grid'>
                             <tr className='grid-days'>
-                                <Week dayNumbers={this.state.dayArray.slice(0,7)} />
-                                <Week dayNumbers={this.state.dayArray.slice(7,14)} />
-                                <Week dayNumbers={this.state.dayArray.slice(14,21)} />
-                                <Week dayNumbers={this.state.dayArray.slice(21,28)} />
-                                <Week dayNumbers={this.state.dayArray.slice(28, 35)} />
-                                <Week dayNumbers={this.state.dayArray.slice(35)} />
+                                <Week 
+                                    monthArray={this.state.monthArray.slice(0,7)}
+                                    dayNumbers={this.state.dayArray.slice(0,7)} />
+                                <Week 
+                                    monthArray={this.state.monthArray.slice(7,14)}
+                                    dayNumbers={this.state.dayArray.slice(7,14)} />
+                                <Week 
+                                    monthArray={this.state.monthArray.slice(14, 21)}
+                                    dayNumbers={this.state.dayArray.slice(14,21)} />
+                                <Week 
+                                    monthArray={this.state.monthArray.slice(21, 28)}
+                                    dayNumbers={this.state.dayArray.slice(21,28)} />
+                                <Week 
+                                    monthArray={this.state.monthArray.slice(28, 35)}
+                                    dayNumbers={this.state.dayArray.slice(28, 35)} />
+                                <Week 
+                                    monthArray={this.state.monthArray.slice(35)}
+                                    dayNumbers={this.state.dayArray.slice(35)} />
                             </tr>
                         </tbody>
                     </table>

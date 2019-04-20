@@ -12,37 +12,39 @@ class Week extends Component {
         super(props)
         this.state = {
             modal: false,
-            dayNumber: null
+            dayNumber: null,
+            monthNumber: null
         }
         this.handleSumbit = this.handleSumbit.bind(this)
     }
 
-    handleClick(dayNumber, event) {
+    handleClick(event, dayNumber, monthNumber) {
+        debugger
         if (event.target.className === 'day-box') {
-            this.setState({ modal: true, dayNumber })
+            this.setState({ modal: true, dayNumber, monthNumber })
         }
     }
 
-    formatTime(event) {
-        const year = moment().year()
-        let month = moment().month()
-        if (month.length === 1) month = "0" + month
+    formatTime(event, props) {
         const day = this.state.dayNumber
+        const month = this.state.monthNumber
+        const year = 2019
         const eventTime = moment(`${year}-${month}-${day} ${event.eventTime}`, "YYYY-MM-DD HH:mm A")
         event['eventTime'] = eventTime
         return event
     }
 
-    handleSumbit(event) {
-        this.formatTime(event)
+    handleSumbit(event, props) {
+        this.formatTime(event, props)
         this.props.addEvent(event)
     }
 
     mapDays(){
-        return this.props.dayNumbers.map((dayNumber) => 
+        return this.props.dayNumbers.map((dayNumber, i) => 
             <Day
+                monthNumber={this.props.monthArray[i]}
                 key={dayNumber}
-                onClick={(e) => this.handleClick(dayNumber, e)}
+                handleClick={(e) => this.handleClick(e, dayNumber, this.props.monthArray[i])}
                 dayNumber={dayNumber} />)
             
     }

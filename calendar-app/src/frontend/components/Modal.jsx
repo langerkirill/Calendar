@@ -33,7 +33,6 @@ class Modal extends Component {
     }
 
     changeColor(e) {
-        debugger
         this.setState({
             color: e.target.value
         })

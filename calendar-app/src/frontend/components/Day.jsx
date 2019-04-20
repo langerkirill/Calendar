@@ -4,7 +4,6 @@ import '../styling/Day.css'
 import { deleteEvent } from '../../actions/eventActions'
 
 class Day extends Component {
-
     constructor(props) {
         super(props)
         this.state = {
@@ -24,6 +23,9 @@ class Day extends Component {
     findRelevantEvents(events) {
         let filteredEvents = events.map((event) => event.eventTime.date() === this.props.dayNumber ? event : null)
         filteredEvents = filteredEvents.filter((event) => event != null)
+        filteredEvents = filteredEvents.map((event) => event.eventTime.month() + 1 === this.props.monthNumber ? event : null)
+        filteredEvents = filteredEvents.filter((event) => event != null)
+        debugger
         const sortedEvents = filteredEvents.sort((first, second) => this.isBeforeOrAfter(first.eventTime, second.eventTime))
         return sortedEvents
     }
@@ -55,7 +57,7 @@ class Day extends Component {
 
     render() {
         return (
-            <td onClick={(e) => this.props.onClick(e)} className='week-row'>
+            <td onClick={(e) => this.props.handleClick(e)} className='week-row'>
                 <div className='day-number 1'>{this.props.dayNumber}</div>
                 <div className='day-box' >
                     <div className='spacing'></div>
