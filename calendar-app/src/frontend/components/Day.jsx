@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import '../styling/Day.css'
-import moment from 'moment'
+import { deleteEvent } from '../../actions/eventActions'
 
 class Day extends Component {
 
@@ -17,6 +17,11 @@ class Day extends Component {
         return first < second ? -1 : first > second ? 1 : 0;
     };
 
+    handleDelete(event, calendarEvent) {
+        debugger
+        this.props.deleteEvent(calendarEvent)
+    }
+
     findRelevantEvents(events) {
         let filteredEvents = events.map((event) => event.eventTime.date() === this.props.dayNumber ? event : null)
         filteredEvents = filteredEvents.filter((event) => event != null)
@@ -27,10 +32,10 @@ class Day extends Component {
 
     presentEvents() {
         if (this.state.events.length > 0) {
-            return this.state.events.map((event, i) =>
+            return this.state.events.map((calendarEvent, i) =>
                 <div className='event-row' key={i}>
-                    <div className='title-event' key={event.eventTitle}>{event.eventTitle}</div>
-                    <button className='delete-button' key={-i}>X</button>
+                    <div className='title-event' key={calendarEvent.calendarEventTitle}>{calendarEvent.eventTitle}</div>
+                    <button onClick={(event) => this.handleDelete(event, calendarEvent)} className='delete-button' key={-i}>X</button>
                 </div>
                 )
         } else {
@@ -59,13 +64,17 @@ class Day extends Component {
     }
 }
 
-
 const mapStateToProps = state => {
     let events = Object.values(state.eventState)
-
     return {
         events
     }
 }
 
-export default connect(mapStateToProps)(Day);
+const mapDispatchToProps = dispatch => {
+    return {
+        deleteEvent: (event) => dispatch(deleteEvent(event))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Day);
