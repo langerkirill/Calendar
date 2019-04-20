@@ -18,7 +18,7 @@ class Week extends Component {
     }
 
     handleClick(dayNumber, event) {
-        if (event.target.className !== 'event-row' && event.target.className !== 'delete-button') {
+        if (event.target.className === 'day-box') {
             this.setState({ modal: true, dayNumber })
         }
     }

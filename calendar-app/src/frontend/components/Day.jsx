@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import '../styling/Day.css'
+import moment from 'moment'
 
 class Day extends Component {
 
@@ -12,10 +13,16 @@ class Day extends Component {
         this.presentEvents = this.presentEvents.bind(this)
     }
 
+    isBeforeOrAfter (first, second) {
+        return first < second ? -1 : first > second ? 1 : 0;
+    };
+
     findRelevantEvents(events) {
         let filteredEvents = events.map((event) => event.eventTime.date() === this.props.dayNumber ? event : null)
         filteredEvents = filteredEvents.filter((event) => event != null)
-        return filteredEvents
+        const sortedEvents = filteredEvents.sort((first, second) => this.isBeforeOrAfter(first.eventTime, second.eventTime))
+        if (sortedEvents.length > 0 ) debugger
+        return sortedEvents
     }
 
     presentEvents() {
@@ -43,7 +50,7 @@ class Day extends Component {
         return (
             <td onClick={(e) => this.props.onClick(e)} className='week-row'>
                 <div className='day-number 1'>{this.props.dayNumber}</div>
-                <div onClick={null} className='day-box' >
+                <div className='day-box' >
                     <div className='spacing'></div>
                     {this.presentEvents()}
                 </div>
