@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import '../styling/calendar.css'
+import '../styling/month.css'
 import Week from '../components/Week'
 import WeekDayNames from '../components/WeekDayNames'
 
@@ -97,6 +97,11 @@ class Month extends Component {
             <div className="calendar-positioner">
                 <div className='calendar-container'>
                     <table>
+                        <thead className='days-of-week'>
+                            <tr className='calendar-title'>
+                                <th className='calendar-title'>{this.props.calendarTitle}</th>
+                            </tr>
+                        </thead>
                         <thead className='days-of-week'>
                             <tr className='day-names'>
                                 <WeekDayNames />
