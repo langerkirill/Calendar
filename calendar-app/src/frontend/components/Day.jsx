@@ -122,6 +122,7 @@ class Day extends Component {
         return (
             <Fragment>
                 {this.state.modal ? <Modal
+                    daysInMonth={this.props.daysInMonth}
                     selectedReminder={this.state.selectedReminder}
                     onSubmit={this.handleSubmit}
                     title={`${firstWord} your reminder for ${this.selectedDay()} below:`}

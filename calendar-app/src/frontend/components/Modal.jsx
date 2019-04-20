@@ -51,6 +51,10 @@ class Modal extends Component {
         return timesArray.map((time, i) => <option key={i}>{time}</option>)
     }
 
+    dayOptions() {
+        return this.props.daysInMonth.map((day, i) => <option key={i}>{day}</option>)
+    }
+
     colorOptions() {
         return colorsArray.map((color, i) => <option>{color}</option>)
     }
@@ -100,6 +104,16 @@ class Modal extends Component {
                                     name='reminderTime' 
                                     onChange={this.handleChange}>
                                     {this.timeOptions()}
+                                </select>
+                            </div>
+                            <div className='modal-input'>
+                                <label className='modal-label'> Day
+                                </label>
+                                <select 
+                                    value={this.state.reminderTime}
+                                    name='reminderTime' 
+                                    onChange={this.handleChange}>
+                                    {this.dayOptions()}
                                 </select>
                             </div>
                         </form>

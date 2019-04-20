@@ -8,30 +8,31 @@ class Month extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            dayArray: [],
+            daysInMonth: [],
+            daysInCalendar: [],
             monthArray: [],
         }
     }
 
-    loadTheDays(dayArray, daysToFill, daysInLastMonth, monthArr){
+    loadTheDays(daysInCalendar, daysToFill, daysInLastMonth, monthArr){
         while (daysToFill > 0) {
             monthArr.unshift(null)
-            dayArray.unshift(daysInLastMonth)
+            daysInCalendar.unshift(daysInLastMonth)
             daysInLastMonth--
             daysToFill--
         }
 
         let i = 1;
-        while (dayArray.length < 42) {
-            dayArray.push(i)
+        while (daysInCalendar.length < 42) {
+            daysInCalendar.push(i)
             monthArr.push(null)
             i++
         }
 
-        return dayArray
+        return daysInCalendar
     }
 
-    divideUpDays(firstDay, daysInLastMonth, dayArray, monthArr){
+    divideUpDays(firstDay, daysInLastMonth, daysInCalendar, monthArr){
         let daysToFill;
         
         switch (firstDay) {
@@ -60,10 +61,10 @@ class Month extends Component {
                 daysToFill = null;
                 break;
         }
-        return this.loadTheDays(dayArray, daysToFill, daysInLastMonth, monthArr)
+        return this.loadTheDays(daysInCalendar, daysToFill, daysInLastMonth, monthArr)
     }
 
-    getDayArray(daysInMonth){
+    getdaysInCalendar(daysInMonth){
         const arrDays = []
 
         while (daysInMonth) {
@@ -71,6 +72,8 @@ class Month extends Component {
             arrDays.unshift(current)
             daysInMonth--
         }
+        const totalDays = arrDays.slice()
+        this.setState({ daysInMonth: totalDays })
         return arrDays
     }
 
@@ -87,10 +90,10 @@ class Month extends Component {
         const daysInMonth = this.props.relativeMoment.daysInMonth()
         const daysInLastMonth = this.props.relativeMoment.subtract(1, 'month').daysInMonth()
         const firstDay = this.props.relativeMoment.startOf('month').format('dddd')
-        const dayArray = this.getDayArray(daysInMonth)
+        const daysInCalendar = this.getdaysInCalendar(daysInMonth)
         const monthArray = this.getMonthArray(daysInMonth, monthNumber)
-        this.divideUpDays(firstDay, daysInLastMonth, dayArray, monthArray)
-        this.setState({ dayArray, monthArray })
+        this.divideUpDays(firstDay, daysInLastMonth, daysInCalendar, monthArray)
+        this.setState({ daysInCalendar, monthArray })
     }
 
     componentDidUpdate(prevProps){
@@ -104,6 +107,20 @@ class Month extends Component {
     componentDidMount() {
         const monthNumber = this.props.relativeMoment.month() + 1
         this.getCalendarOutlook(monthNumber)
+    }
+
+    mapWeeks(){
+        let i = 0
+        const weeks = []
+        while (i <= 42) {
+                weeks.push(<Week
+                    daysInMonth={this.state.daysInMonth}
+                    currentMonthNumber={this.props.currentMonthNumber}
+                    monthArray={this.state.monthArray.slice(i, i + 7)}
+                    dayNumbers={this.state.daysInCalendar.slice(i, i + 7)} />)
+            i += 7
+        }
+        return weeks
     }
 
     render() {
@@ -123,30 +140,7 @@ class Month extends Component {
                         </thead>
                         <tbody className='days-display-grid'>
                             <tr className='grid-days'>
-                                <Week
-                                    currentMonthNumber={this.props.currentMonthNumber} 
-                                    monthArray={this.state.monthArray.slice(0,7)}
-                                    dayNumbers={this.state.dayArray.slice(0,7)} />
-                                <Week
-                                    currentMonthNumber={this.props.currentMonthNumber} 
-                                    monthArray={this.state.monthArray.slice(7,14)}
-                                    dayNumbers={this.state.dayArray.slice(7,14)} />
-                                <Week
-                                    currentMonthNumber={this.props.currentMonthNumber} 
-                                    monthArray={this.state.monthArray.slice(14, 21)}
-                                    dayNumbers={this.state.dayArray.slice(14,21)} />
-                                <Week
-                                    currentMonthNumber={this.props.currentMonthNumber} 
-                                    monthArray={this.state.monthArray.slice(21, 28)}
-                                    dayNumbers={this.state.dayArray.slice(21,28)} />
-                                <Week
-                                    currentMonthNumber={this.props.currentMonthNumber} 
-                                    monthArray={this.state.monthArray.slice(28, 35)}
-                                    dayNumbers={this.state.dayArray.slice(28, 35)} />
-                                <Week
-                                    currentMonthNumber={this.props.currentMonthNumber} 
-                                    monthArray={this.state.monthArray.slice(35)}
-                                    dayNumbers={this.state.dayArray.slice(35)} />
+                                {this.mapWeeks()}
                             </tr>
                         </tbody>
                     </table>

@@ -14,7 +14,7 @@
     background: white;
     width: 400px;
     margin: auto;
-    height: 300px;
+    height: 400px;
     position: relative;
 }
 
@@ -24,8 +24,10 @@
 
 .modal-form {
     display: flex;
+    flex-direction: column;
     justify-content: space-around;
-    height: 120px;
+    align-items: center;
+    height: 240px;
 }
 
 .modal-input {
