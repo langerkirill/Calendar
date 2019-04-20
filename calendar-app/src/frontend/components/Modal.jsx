@@ -65,7 +65,7 @@ class Modal extends Component {
                             <div className='modal-input'>
                                 <label className='modal-label'> Event Name
                                 </label>
-                                <input name='eventTitle' maxLength='11' onChange={(e) => this.handleChange(e)} defaultValue={this.state.formText}></input>
+                                <input name='eventTitle' maxLength='30' onChange={(e) => this.handleChange(e)} defaultValue={this.state.formText}></input>
                             </div>
                             <div className='modal-input'>
                                 <label className='modal-label'> Event Color
