@@ -36,7 +36,7 @@ export default class Calendar extends Component {
         return (
             <Fragment>
                 <div className='app-container'>
-                    <a href="#" onClick={() => this.changeTheMonth('backward')}>&laquo; Previous</a>
+                    <button onClick={() => this.changeTheMonth('backward')}>&laquo; Previous</button>
                     {
                         this.state.relativeMoment 
                             ? <Month 
@@ -44,7 +44,7 @@ export default class Calendar extends Component {
                                 relativeMoment={this.state.relativeMoment}/> 
                             : null
                     }
-                    <a onClick={() => this.changeTheMonth('forward')} href="#" >Next &raquo;</a>
+                    <button onClick={() => this.changeTheMonth('forward')} >Next &raquo;</button>
                 </div>
             </Fragment>
         )

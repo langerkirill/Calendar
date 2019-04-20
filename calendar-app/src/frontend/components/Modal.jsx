@@ -1,22 +1,31 @@
-import React, { Component, Fragment } from 'react'
-import PropTypes from 'prop-types'
+import React, { Component } from 'react'
 import '../styling/Modal.css'
 import { timesArray } from '../../utils/timesArray.js'
 import { colorsArray } from '../../utils/colorsArray.js'
-import moment from 'moment'
 
 class Modal extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            eventTitle: '',
-            eventTime: null,
-            color: ''
+            reminderTitle: '',
+            reminderTime: '',
+            color: '',
+            id: ''
         }
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleChange = this.handleChange.bind(this)
         this.changeColor = this.changeColor.bind(this)
+    }
+
+    componentDidMount(){
+        if (this.props.selectedReminder) {
+            let { reminderTime, reminderTitle, color, id } = this.props.selectedReminder
+            reminderTime = reminderTime._i.split(' ')
+            reminderTime.shift()
+            reminderTime = reminderTime.join(' ')
+            this.setState({ reminderTime, reminderTitle, color, id })
+        }
     }
 
     handleChange(e) {
@@ -25,10 +34,10 @@ class Modal extends Component {
 
     handleSubmit(e) {
         e.preventDefault()
-        if (this.state.eventTime === 'Select a Time' 
-            || this.state.eventTitle === '' 
-            || this.state.eventTime === null) return
-        this.props.onSubmit(this.state, this.props.da)
+        if (this.state.reminderTime === 'Select a Time' 
+            || this.state.reminderTitle === '' 
+            || this.state.reminderTime === null) return
+        this.props.onSubmit(this.state)
         this.props.handleClose()
     }
 
@@ -63,17 +72,23 @@ class Modal extends Component {
                     <div className='modal-form-container'>
                         <form className='modal-form'>
                             <div className='modal-input'>
-                                <label className='modal-label'> Event Name
+                                <label className='modal-label'> Name
                                 </label>
-                                <input name='eventTitle' maxLength='30' onChange={(e) => this.handleChange(e)} defaultValue={this.state.formText}></input>
+                                <input 
+                                    name='reminderTitle' 
+                                    maxLength='30' 
+                                    onChange={(e) => this.handleChange(e)} 
+                                    defaultValue={this.state.reminderTitle}>
+                                </input>
                             </div>
                             <div className='modal-input'>
-                                <label className='modal-label'> Event Color
+                                <label className='modal-label'> Color
                                 </label>
                                 <select
+                                    value={this.state.color}
                                     onChange={(e) => this.changeColor(e)}
                                     style={{ backgroundColor: this.state.color }}
-                                    name='eventTime'>
+                                    name='color'>
                                     {this.colorOptions()}
                                 </select>
                             </div>
@@ -81,7 +96,8 @@ class Modal extends Component {
                                 <label className='modal-label'> Time
                                 </label>
                                 <select 
-                                    name='eventTime' 
+                                    value={this.state.reminderTime}
+                                    name='reminderTime' 
                                     onChange={this.handleChange}>
                                     {this.timeOptions()}
                                 </select>
@@ -102,19 +118,6 @@ class Modal extends Component {
             </td>
         )
     }
-}
-
-Modal.propTypes = {
-    handleClose: PropTypes.func,
-    handleConfirm: PropTypes.func,
-    id: PropTypes.string,
-    message: PropTypes.oneOfType([PropTypes.func, PropTypes.string, PropTypes.object]),
-    children: PropTypes.any,
-    style: PropTypes.object,
-    title: PropTypes.string,
-    buttonText: PropTypes.string,
-    buttons: PropTypes.element,
-    fullPage: PropTypes.bool,
 }
 
 export default Modal

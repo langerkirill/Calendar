@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import '../styling/Day.css'
-import { deleteEvent, addEvent } from '../../actions/eventActions'
+import { deleteReminder, addReminder, updateReminder } from '../../actions/reminderActions'
 import Modal from './Modal'
 import moment from 'moment'
 
@@ -9,12 +9,14 @@ class Day extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            events: [],
-            modal: false
+            reminders: [],
+            modal: false,
+            selectedReminder: null
         }
-        this.presentEvents = this.presentEvents.bind(this)
-        this.findRelevantEvents = this.findRelevantEvents.bind(this)
-        this.handleSumbit = this.handleSumbit.bind(this)
+        this.presentReminders = this.presentReminders.bind(this)
+        this.findRelevantReminders = this.findRelevantReminders.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this)
+        this.handleUpdate = this.handleUpdate.bind(this)
     }
 
     isBeforeOrAfter(first, second) {
@@ -27,54 +29,67 @@ class Day extends Component {
         }
     }
 
-    handleDelete(event, calendarEvent) {
-        this.props.deleteEvent(calendarEvent)
+    handleDelete(event, reminder) {
+        this.props.deleteReminder(reminder)
     }
 
-    formatTime(event, props) {
+    formatReminder(reminder) {
         const day = this.state.dayNumber
         const month = this.state.monthNumber
         const year = 2019
-        const eventTime = moment(`${year}-${month}-${day} ${event.eventTime}`, "YYYY-MM-DD HH:mm A")
-        event['eventTime'] = eventTime
-        return event
+        const reminderTime = moment(`${year}-${month}-${day} ${reminder.reminderTime}`, "YYYY-MM-DD HH:mm A")
+        debugger
+        reminder['reminderTime'] = reminderTime
+        if (!reminder.id) reminder['id'] = this.props.reminders.length + 1
+        return reminder
     }
 
-    handleSumbit(event, props) {
-        this.formatTime(event, props)
-        this.props.addEvent(event)
+    handleSubmit(reminder) {
+        this.formatReminder(reminder)
+        debugger
+        this.state.selectedReminder == null
+        ? this.props.addReminder(reminder)
+        : this.props.updateReminder(reminder)
+        if (this.state.selectedReminder) {
+            this.setState({ selectedReminder: null })
+        }
     }
 
-    findRelevantEvents(events) {
+    handleUpdate(event, reminder){
+        const selectedReminder = reminder
+        this.setState({ selectedReminder, modal: true })
+    }
+
+    findRelevantReminders(reminders) {
         const that = this
-        let filteredEvents = events.map((event) => {
-            if (event.eventTime.date() === that.props.dayNumber) {
-                if (event.eventTime.month() + 1 === that.props.monthNumber) {
-                    return event
+        let filteredReminders = reminders.map((reminder) => {
+            if (reminder.reminderTime.date() === that.props.dayNumber) {
+                if (reminder.reminderTime.month() + 1 === that.props.monthNumber) {
+                    return reminder
                 }
             }
             return null
         })
-        filteredEvents = filteredEvents.filter((event) => event != null)
-        const sortedEvents = filteredEvents.sort((first, second) => this.isBeforeOrAfter(first.eventTime, second.eventTime))
-        return sortedEvents
+        filteredReminders = filteredReminders.filter((reminder) => reminder != null)
+        const sortedReminders = filteredReminders.sort((first, second) => this.isBeforeOrAfter(first.reminderTime, second.reminderTime))
+        return sortedReminders
     }
 
-    presentEvents() {
-        if (this.state.events.length > 0) {
-            return this.state.events.map((calendarEvent, i) => {
-                const time = calendarEvent.eventTime._i.split(' ').slice(1)
+    presentReminders() {
+        if (this.state.reminders.length > 0) {
+            return this.state.reminders.map((reminder, i) => {
+                const time = reminder.reminderTime._i.split(' ').slice(1)
                 return (
-                    <div className='event-row' key={i} style={{ backgroundColor: calendarEvent.color }}>
+                    <div className='event-row' key={i} style={{ backgroundColor: reminder.color }}>
                         <div className='event-text'>
-                            <div className='event-time' key={calendarEvent.eventTime._i}>{time.join(' ')}</div>
-                            <div className='title-event' key={calendarEvent.eventTitle}>{calendarEvent.eventTitle}</div>
+                            <div className='event-time' key={reminder.reminderTime._i}>{time.join(' ')}</div>
+                            <div className='title-event' key={reminder.reminderTitle}>{reminder.reminderTitle}</div>
                         </div>
                         <div className='event-buttons'>
-                            <button onClick={(event) => this.handleDelete(event, calendarEvent)} key={-i}>
+                            <button onClick={(event) => this.handleDelete(event, reminder)} key={-i}>
                                 <i class="fa fa-trash-o"></i>
                             </button>
-                            <button>
+                            <button onClick={(event) => this.handleUpdate(event, reminder)}>
                                 <i className="fa fa-edit"></i>
                             </button>
                         </div>
@@ -87,29 +102,29 @@ class Day extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        const events = this.props.events
+        const reminders = this.props.reminders
         const monthNumber = this.props.monthNumber
-        if (events != prevProps.events || monthNumber != prevProps.monthNumber) {
-            const relevantEvents = this.findRelevantEvents(events)
-            this.setState({ events: relevantEvents })
+        if (reminders !== prevProps.reminders || monthNumber !== prevProps.monthNumber) {
+            const relevantReminders = this.findRelevantReminders(reminders)
+            this.setState({ reminders: relevantReminders })
         }
     }
 
     selectedDay(){
-        debugger
         return moment(`${2019}-${this.props.monthNumber}-${this.props.dayNumber}`).format('LL')
     }
 
     render() {
-
         const isDisabled = this.props.isDisabled
         const dayBackground = isDisabled ? 'grey' : 'white'
+        const firstWord = this.state.selectedReminder ? 'Update' : 'Schedule'
 
         return (
             <Fragment>
                 {this.state.modal ? <Modal
-                    onSubmit={this.handleSumbit}
-                    title={`Schedule your event for ${this.selectedDay()} below:`}
+                    selectedReminder={this.state.selectedReminder}
+                    onSubmit={this.handleSubmit}
+                    title={`${firstWord} your reminder for ${this.selectedDay()} below:`}
                     handleClose={() => this.setState({ modal: false })} /> : null}
                 <td
                     onClick=
@@ -122,7 +137,7 @@ class Day extends Component {
                     <div className='day-number 1'>{this.props.dayNumber}</div>
                     <div className='day-box' >
                         <div className='spacing'></div>
-                        {this.presentEvents()}
+                        {this.presentReminders()}
                     </div>
                 </td>
             </Fragment>
@@ -131,16 +146,17 @@ class Day extends Component {
 }
 
 const mapStateToProps = state => {
-    let events = Object.values(state.eventState)
+    let reminders = Object.values(state.reminderState)
     return {
-        events
+        reminders
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        deleteEvent: (event) => dispatch(deleteEvent(event)),
-        addEvent: (event) => dispatch(addEvent(event))
+        deleteReminder: (reminder) => dispatch(deleteReminder(reminder)),
+        updateReminder: (reminder) => dispatch(updateReminder(reminder)),
+        addReminder: (reminder) => dispatch(addReminder(reminder))
     }
 }
 
