@@ -42,6 +42,7 @@ class Week extends Component {
     mapDays(){
         return this.props.dayNumbers.map((dayNumber, i) => 
             <Day
+                isDisabled={this.props.monthArray[i] === null ? true : false}
                 monthNumber={this.props.monthArray[i]}
                 key={dayNumber}
                 handleClick={(e) => this.handleClick(e, dayNumber, this.props.monthArray[i])}

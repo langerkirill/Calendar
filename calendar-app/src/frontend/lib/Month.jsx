@@ -14,10 +14,8 @@ class Month extends Component {
     }
 
     loadTheDays(dayArray, daysToFill, daysInLastMonth, monthArr){
-        const prependMonth = monthArr[0] - 1
-        const appendMonth = monthArr[0] + 1
         while (daysToFill > 0) {
-            monthArr.unshift(prependMonth)
+            monthArr.unshift(null)
             dayArray.unshift(daysInLastMonth)
             daysInLastMonth--
             daysToFill--
@@ -26,7 +24,7 @@ class Month extends Component {
         let i = 1;
         while (dayArray.length < 42) {
             dayArray.push(i)
-            monthArr.push(appendMonth)
+            monthArr.push(null)
             i++
         }
 
@@ -125,22 +123,28 @@ class Month extends Component {
                         </thead>
                         <tbody className='days-display-grid'>
                             <tr className='grid-days'>
-                                <Week 
+                                <Week
+                                    currentMonthNumber={this.props.currentMonthNumber} 
                                     monthArray={this.state.monthArray.slice(0,7)}
                                     dayNumbers={this.state.dayArray.slice(0,7)} />
-                                <Week 
+                                <Week
+                                    currentMonthNumber={this.props.currentMonthNumber} 
                                     monthArray={this.state.monthArray.slice(7,14)}
                                     dayNumbers={this.state.dayArray.slice(7,14)} />
-                                <Week 
+                                <Week
+                                    currentMonthNumber={this.props.currentMonthNumber} 
                                     monthArray={this.state.monthArray.slice(14, 21)}
                                     dayNumbers={this.state.dayArray.slice(14,21)} />
-                                <Week 
+                                <Week
+                                    currentMonthNumber={this.props.currentMonthNumber} 
                                     monthArray={this.state.monthArray.slice(21, 28)}
                                     dayNumbers={this.state.dayArray.slice(21,28)} />
-                                <Week 
+                                <Week
+                                    currentMonthNumber={this.props.currentMonthNumber} 
                                     monthArray={this.state.monthArray.slice(28, 35)}
                                     dayNumbers={this.state.dayArray.slice(28, 35)} />
-                                <Week 
+                                <Week
+                                    currentMonthNumber={this.props.currentMonthNumber} 
                                     monthArray={this.state.monthArray.slice(35)}
                                     dayNumbers={this.state.dayArray.slice(35)} />
                             </tr>

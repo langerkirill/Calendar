@@ -9,20 +9,20 @@ export default class Calendar extends Component {
         super(props)
         this.state = {
             relativeMoment: null,
-            monthNumber: 1, 
-            calendarTitle: ''
+            monthCounter: 1, 
+            calendarTitle: '',
         }
         this.changeTheMonth = this.changeTheMonth.bind(this)
     }
 
     changeTheMonth(direction) {
-        const monthNumber = direction === 'forward' 
-            ? this.state.monthNumber + 1 
-            : this.state.monthNumber - 1
-        const relativeMoment = moment().add(monthNumber, 'M')
-        const calendarTitleArray = moment().add(monthNumber - 1, 'M').format('LL').split(' ')
+        const monthCounter = direction === 'forward' 
+            ? this.state.monthCounter + 1 
+            : this.state.monthCounter - 1
+        const relativeMoment = moment().add(monthCounter, 'M')
+        const calendarTitleArray = moment().add(monthCounter - 1, 'M').format('LL').split(' ')
         const calendarTitle = calendarTitleArray[0] + ' ' + calendarTitleArray[2]
-        this.setState({ relativeMoment, monthNumber, calendarTitle })
+        this.setState({ relativeMoment, monthCounter, calendarTitle })
     }
 
     componentDidMount(){

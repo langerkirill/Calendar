@@ -56,8 +56,19 @@ class Day extends Component {
     }
 
     render() {
+        
+        const isDisabled = this.props.isDisabled
+        const dayBackground = isDisabled ? 'grey' : 'white'
+
         return (
-            <td onClick={(e) => this.props.handleClick(e)} className='week-row'>
+            <td 
+                onClick=
+                {
+                    isDisabled 
+                    ? null 
+                    : (e) => this.props.handleClick(e)
+                } 
+                className={`week-row ${dayBackground}`}>
                 <div className='day-number 1'>{this.props.dayNumber}</div>
                 <div className='day-box' >
                     <div className='spacing'></div>
