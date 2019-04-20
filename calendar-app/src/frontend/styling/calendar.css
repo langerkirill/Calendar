@@ -7,12 +7,12 @@
 
 .calendar-container {
     border: 1px solid black;
-    height: 800px;
-    width: 1000px;
+    height: 831px;
+    width: 901px;
 }
 
 .day-names {
-    width: 990px;
+    width: 900px;
     height: 40px;
     display: flex;
     justify-content: space-around;
@@ -29,8 +29,8 @@
 }
 
 .week-row {
-    height: 147px;
-    width: 138.2px;
+    height: 127px;
+    width: 123.2px;
     border: 1px solid black;
 }
 
