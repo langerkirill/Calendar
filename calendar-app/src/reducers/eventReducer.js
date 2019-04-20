@@ -7,7 +7,6 @@ export default (state = {}, action) => {
         case ADD_EVENT:
             return merge({}, newState, { [action.event.eventTime._i]: action.event })
         case DELETE_EVENT:
-            debugger
             delete newState[action.event.eventTime._i];
             return newState;
         default:

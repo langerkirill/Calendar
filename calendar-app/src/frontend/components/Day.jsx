@@ -13,12 +13,11 @@ class Day extends Component {
         this.presentEvents = this.presentEvents.bind(this)
     }
 
-    isBeforeOrAfter (first, second) {
+    isBeforeOrAfter(first, second) {
         return first < second ? -1 : first > second ? 1 : 0;
     };
 
     handleDelete(event, calendarEvent) {
-        debugger
         this.props.deleteEvent(calendarEvent)
     }
 
@@ -26,18 +25,21 @@ class Day extends Component {
         let filteredEvents = events.map((event) => event.eventTime.date() === this.props.dayNumber ? event : null)
         filteredEvents = filteredEvents.filter((event) => event != null)
         const sortedEvents = filteredEvents.sort((first, second) => this.isBeforeOrAfter(first.eventTime, second.eventTime))
-        if (sortedEvents.length > 0 ) debugger
         return sortedEvents
     }
 
     presentEvents() {
         if (this.state.events.length > 0) {
-            return this.state.events.map((calendarEvent, i) =>
-                <div className='event-row' key={i}>
-                    <div className='title-event' key={calendarEvent.calendarEventTitle}>{calendarEvent.eventTitle}</div>
-                    <button onClick={(event) => this.handleDelete(event, calendarEvent)} className='delete-button' key={-i}>X</button>
-                </div>
+            return this.state.events.map((calendarEvent, i) => {
+                const time = calendarEvent.eventTime._i.split(' ').slice(1)
+                return (
+                    <div className='event-row' key={i} style={{ backgroundColor: calendarEvent.color }}>
+                        <div className='event-time' key={calendarEvent.eventTime._i}>{time.join(' ')}</div>
+                        <div className='title-event' key={calendarEvent.eventTitle}>{calendarEvent.eventTitle}</div>
+                        <button onClick={(event) => this.handleDelete(event, calendarEvent)} className='delete-button' key={-i}>X</button>
+                    </div>
                 )
+            })
         } else {
             return null
         }

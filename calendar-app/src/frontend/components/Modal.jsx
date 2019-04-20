@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import '../styling/Modal.css'
 import { timesArray } from '../../utils/timesArray.js'
+import { colorsArray } from '../../utils/colorsArray.js'
 import moment from 'moment'
 
 class Modal extends Component {
@@ -10,10 +11,12 @@ class Modal extends Component {
         super(props)
         this.state = {
             eventTitle: '',
-            eventTime: null
+            eventTime: null,
+            color: ''
         }
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleChange = this.handleChange.bind(this)
+        this.changeColor = this.changeColor.bind(this)
     }
 
     handleChange(e) {
@@ -29,8 +32,19 @@ class Modal extends Component {
         this.props.handleClose()
     }
 
+    changeColor(e) {
+        debugger
+        this.setState({
+            color: e.target.value
+        })
+    }
+
     timeOptions() {
         return timesArray.map((time, i) => <option key={i}>{time}</option>)
+    }
+
+    colorOptions() {
+        return colorsArray.map((color, i) => <option>{color}</option>)
     }
 
     render() {
@@ -52,15 +66,24 @@ class Modal extends Component {
                             <div className='modal-input'>
                                 <label className='modal-label'> Event Name
                                 </label>
-                                <input name='eventTitle' maxLength='15' onChange={(e) => this.handleChange(e)} defaultValue={this.state.formText}></input>
+                                <input name='eventTitle' maxLength='11' onChange={(e) => this.handleChange(e)} defaultValue={this.state.formText}></input>
+                            </div>
+                            <div className='modal-input'>
+                                <label className='modal-label'> Event Color
+                                </label>
+                                <select
+                                    onChange={(e) => this.changeColor(e)}
+                                    style={{ backgroundColor: this.state.color }}
+                                    name='eventTime'>
+                                    {this.colorOptions()}
+                                </select>
                             </div>
                             <div className='modal-input'>
                                 <label className='modal-label'> Time
                                 </label>
                                 <select 
                                     name='eventTime' 
-                                    onChange={this.handleChange}
-                                    defaultValue='Select A Time'>
+                                    onChange={this.handleChange}>
                                     {this.timeOptions()}
                                 </select>
                             </div>

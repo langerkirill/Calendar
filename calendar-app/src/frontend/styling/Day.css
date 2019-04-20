@@ -12,7 +12,6 @@
     font-size: 12px;
     max-width: 100%;
     vertical-align: center;
-    padding-bottom: 1px;
     display: flex;
     justify-content: space-between;
 }
@@ -26,11 +25,18 @@
 }
 
 .title-event {
-    margin-left: 10px;
+    padding-top: 1px;
+    font-size: 9px;
 }
 
 .delete-button {
     font-weight: 700;
     border: none;
     margin-right: 2px;
+}
+
+.event-time {
+    margin-left: 2px;
+    padding-top: 1px;
+    font-size: 9px;
 }
