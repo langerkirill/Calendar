@@ -15,6 +15,7 @@ class Week extends Component {
     mapDays(){
         return this.props.dayNumbers.map((dayNumber, i) => 
             <Day
+                calendarYear={this.props.calendarYear}
                 daysInMonth={this.props.daysInMonth}
                 isDisabled={this.props.monthArray[i] === null ? true : false}
                 monthNumber={this.props.monthArray[i]}

@@ -80,7 +80,7 @@ class Month extends Component {
     getMonthArray(daysInMonth, monthNumber){
         const monthArr = []
         while (daysInMonth) {
-            monthArr.unshift(monthNumber - 1)
+            monthArr.unshift(monthNumber)
             daysInMonth--
         }
         return monthArr
@@ -88,8 +88,8 @@ class Month extends Component {
 
     getCalendarOutlook(monthNumber){
         const daysInMonth = this.props.relativeMoment.daysInMonth()
-        const daysInLastMonth = this.props.relativeMoment.subtract(1, 'month').daysInMonth()
         const firstDay = this.props.relativeMoment.startOf('month').format('dddd')
+        const daysInLastMonth = this.props.relativeMoment.subtract(1, 'month').daysInMonth()
         const daysInCalendar = this.getdaysInCalendar(daysInMonth)
         const monthArray = this.getMonthArray(daysInMonth, monthNumber)
         this.divideUpDays(firstDay, daysInLastMonth, daysInCalendar, monthArray)
@@ -114,6 +114,8 @@ class Month extends Component {
         const weeks = []
         while (i <= 42) {
                 weeks.push(<Week
+                    key={i}
+                    calendarYear={this.props.calendarYear}
                     daysInMonth={this.state.daysInMonth}
                     currentMonthNumber={this.props.currentMonthNumber}
                     monthArray={this.state.monthArray.slice(i, i + 7)}

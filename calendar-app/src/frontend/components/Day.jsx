@@ -34,11 +34,11 @@ class Day extends Component {
     }
 
     formatReminder(reminder) {
-        const day = this.state.dayNumber
-        const month = this.state.monthNumber
-        const year = 2019
-        const reminderTime = moment(`${year}-${month}-${day} ${reminder.reminderTime}`, "YYYY-MM-DD HH:mm A")
+        const day = reminder.reminderDay ? reminder.reminderDay : this.state.dayNumber
+        const month = this.props.monthNumber
+        const year = this.props.calendarYear
         debugger
+        const reminderTime = moment(`${year}-${month}-${day} ${reminder.reminderTime}`, "YYYY-MM-DD HH:mm A")
         reminder['reminderTime'] = reminderTime
         if (!reminder.id) reminder['id'] = this.props.reminders.length + 1
         return reminder
@@ -46,7 +46,6 @@ class Day extends Component {
 
     handleSubmit(reminder) {
         this.formatReminder(reminder)
-        debugger
         this.state.selectedReminder == null
         ? this.props.addReminder(reminder)
         : this.props.updateReminder(reminder)
@@ -63,9 +62,12 @@ class Day extends Component {
     findRelevantReminders(reminders) {
         const that = this
         let filteredReminders = reminders.map((reminder) => {
+            debugger
             if (reminder.reminderTime.date() === that.props.dayNumber) {
                 if (reminder.reminderTime.month() + 1 === that.props.monthNumber) {
-                    return reminder
+                    if (reminder.reminderTime.year().toString() === that.props.calendarYear) {
+                        return reminder
+                    }
                 }
             }
             return null
@@ -87,7 +89,7 @@ class Day extends Component {
                         </div>
                         <div className='event-buttons'>
                             <button onClick={(event) => this.handleDelete(event, reminder)} key={-i}>
-                                <i class="fa fa-trash-o"></i>
+                                <i className="fa fa-trash-o"></i>
                             </button>
                             <button onClick={(event) => this.handleUpdate(event, reminder)}>
                                 <i className="fa fa-edit"></i>

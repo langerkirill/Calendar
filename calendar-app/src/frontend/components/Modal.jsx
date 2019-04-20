@@ -10,6 +10,7 @@ class Modal extends Component {
         this.state = {
             reminderTitle: '',
             reminderTime: '',
+            reminderDay: '',
             color: '',
             id: ''
         }
@@ -20,11 +21,11 @@ class Modal extends Component {
 
     componentDidMount(){
         if (this.props.selectedReminder) {
-            let { reminderTime, reminderTitle, color, id } = this.props.selectedReminder
+            let { reminderTime, reminderTitle, reminderDay, color, id } = this.props.selectedReminder
             reminderTime = reminderTime._i.split(' ')
             reminderTime.shift()
             reminderTime = reminderTime.join(' ')
-            this.setState({ reminderTime, reminderTitle, color, id })
+            this.setState({ reminderTime, reminderTitle, reminderDay, color, id })
         }
     }
 
@@ -76,42 +77,46 @@ class Modal extends Component {
                     <div className='modal-form-container'>
                         <form className='modal-form'>
                             <div className='modal-input'>
-                                <label className='modal-label'> Name
+                                <label className='modal-label'> Reminder Name
                                 </label>
                                 <input 
                                     name='reminderTitle' 
                                     maxLength='30' 
+                                    className='modal-entry' 
                                     onChange={(e) => this.handleChange(e)} 
                                     defaultValue={this.state.reminderTitle}>
                                 </input>
                             </div>
                             <div className='modal-input'>
-                                <label className='modal-label'> Color
+                                <label className='modal-label'> Reminder Color
                                 </label>
                                 <select
                                     value={this.state.color}
                                     onChange={(e) => this.changeColor(e)}
+                                    className='modal-entry' 
                                     style={{ backgroundColor: this.state.color }}
                                     name='color'>
                                     {this.colorOptions()}
                                 </select>
                             </div>
                             <div className='modal-input'>
-                                <label className='modal-label'> Time
+                                <label className='modal-label'> Reminder Time
                                 </label>
                                 <select 
                                     value={this.state.reminderTime}
+                                    className='modal-entry' 
                                     name='reminderTime' 
                                     onChange={this.handleChange}>
                                     {this.timeOptions()}
                                 </select>
                             </div>
                             <div className='modal-input'>
-                                <label className='modal-label'> Day
+                                <label className='modal-label'> Reminder Day of the Month
                                 </label>
                                 <select 
-                                    value={this.state.reminderTime}
-                                    name='reminderTime' 
+                                    value={this.state.reminderDay}
+                                    name='reminderDay' 
+                                    className='modal-entry' 
                                     onChange={this.handleChange}>
                                     {this.dayOptions()}
                                 </select>
