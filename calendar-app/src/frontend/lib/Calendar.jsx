@@ -9,30 +9,30 @@ export default class Calendar extends Component {
         super(props)
         this.state = {
             relativeMoment: null,
-            monthCounter: 0, 
+            monthIndex: 0, 
             calendarTitle: '',
             calendarYear: ''
         }
-        this.changeTheMonth = this.changeTheMonth.bind(this)
+    }
+
+    setCalendarState(relativeMoment, monthIndex = 0){
+        const dateTextArray = moment(relativeMoment).format('LL').split(' ')
+        const calendarTitle = dateTextArray[0] + ' ' + dateTextArray[2]
+        const calendarYear = dateTextArray[2]
+        this.setState({ relativeMoment, monthIndex, calendarTitle, calendarYear })
     }
 
     changeTheMonth(direction) {
-        const monthCounter = direction === 'forward' 
-            ? this.state.monthCounter + 1 
-            : this.state.monthCounter - 1
-        const relativeMoment = moment().add(monthCounter, 'M')
-        const calendarTitleArray = moment(relativeMoment).format('LL').split(' ')
-        const calendarTitle = calendarTitleArray[0] + ' ' + calendarTitleArray[2]
-        const calendarYear = calendarTitleArray[2]
-        this.setState({ relativeMoment, monthCounter, calendarTitle, calendarYear })
+        const monthIndex = direction === 'forward' 
+            ? this.state.monthIndex + 1 
+            : this.state.monthIndex - 1
+        const relativeMoment = moment().add(monthIndex, 'M')
+        this.setCalendarState(relativeMoment, monthIndex)
     }
 
     componentDidMount(){
         const relativeMoment = moment()
-        const calendarTitleArray = moment().format('LL').split(' ')
-        const calendarTitle = calendarTitleArray[0] + ' ' + calendarTitleArray[2]
-        const calendarYear = calendarTitleArray[2]
-        this.setState({ relativeMoment, calendarTitle, calendarYear })
+        this.setCalendarState(relativeMoment)
     }
 
     render() {

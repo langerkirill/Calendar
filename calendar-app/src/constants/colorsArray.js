@@ -1,4 +1,5 @@
 export const colorsArray = [
+    "None",
     "AliceBlue",
     "AntiqueWhite",
     "Aqua",

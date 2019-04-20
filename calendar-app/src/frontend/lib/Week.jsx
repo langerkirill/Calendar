@@ -1,27 +1,17 @@
 import React, { Component, Fragment } from 'react'
-import '../styling/week.css'
 import Day from './Day'
+import '../styling/week.css'
 
 class Week extends Component {
-
-    constructor(props) {
-        super(props)
-        this.state = {
-            dayNumber: null,
-            monthNumber: null
-        }
-    }
-
     mapDays(){
         return this.props.dayNumbers.map((dayNumber, i) => 
             <Day
                 calendarYear={this.props.calendarYear}
-                daysInMonth={this.props.daysInMonth}
+                daysInCurrentMonth={this.props.daysInCurrentMonth}
                 isDisabled={this.props.monthArray[i] === null ? true : false}
                 monthNumber={this.props.monthArray[i]}
                 key={dayNumber}
                 dayNumber={dayNumber} />)
-            
     }
 
     render() {

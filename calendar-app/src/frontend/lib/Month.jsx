@@ -1,126 +1,72 @@
 import React, { Component } from 'react'
 import '../styling/month.css'
-import Week from '../components/Week'
-import WeekDayNames from '../components/WeekDayNames'
+import Week from './Week'
+import { weekDayNames } from '../components/WeekDayNames'
+import { generateCalendarDaysAndMonth, countRemainingDays, generateCurrentMonthDays } from '../../utils/monthUtils'
 
 class Month extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            daysInMonth: [],
+            daysInCurrentMonth: [],
             daysInCalendar: [],
             monthArray: [],
         }
     }
 
-    loadTheDays(daysInCalendar, daysToFill, daysInLastMonth, monthArr){
-        while (daysToFill > 0) {
-            monthArr.unshift(null)
-            daysInCalendar.unshift(daysInLastMonth)
-            daysInLastMonth--
-            daysToFill--
-        }
-
-        let i = 1;
-        while (daysInCalendar.length < 42) {
-            daysInCalendar.push(i)
-            monthArr.push(null)
-            i++
-        }
-
-        return daysInCalendar
+    generateCurrentMonthDays(daysInCurrentMonth) {
+        const currentMonthDays = generateCurrentMonthDays(daysInCurrentMonth)
+        this.setState({ daysInCurrentMonth: currentMonthDays })
+        return currentMonthDays
     }
 
-    divideUpDays(firstDay, daysInLastMonth, daysInCalendar, monthArr){
-        let daysToFill;
-        
-        switch (firstDay) {
-            case 'Monday':
-                daysToFill = 0;
-                break;
-            case 'Teusday':
-                daysToFill = 1;
-                break;
-            case 'Wednesday':
-                daysToFill = 2;
-                break;
-            case 'Thursday':
-                daysToFill = 3;
-                break;
-            case 'Friday':
-                daysToFill = 4;
-                break;
-            case 'Saturday':
-                daysToFill = 5;
-                break;
-            case 'Sunday':
-                daysToFill = 6;
-                break;
-            default:
-                daysToFill = null;
-                break;
+    generateMonthArray(daysInCurrentMonth, monthNumber) {
+        const monthArray = []
+        while (daysInCurrentMonth) {
+            monthArray.unshift(monthNumber)
+            daysInCurrentMonth--
         }
-        return this.loadTheDays(daysInCalendar, daysToFill, daysInLastMonth, monthArr)
+        return monthArray
     }
 
-    getdaysInCalendar(daysInMonth){
-        const arrDays = []
-
-        while (daysInMonth) {
-            const current = daysInMonth
-            arrDays.unshift(current)
-            daysInMonth--
-        }
-        const totalDays = arrDays.slice()
-        this.setState({ daysInMonth: totalDays })
-        return arrDays
-    }
-
-    getMonthArray(daysInMonth, monthNumber){
-        const monthArr = []
-        while (daysInMonth) {
-            monthArr.unshift(monthNumber)
-            daysInMonth--
-        }
-        return monthArr
-    }
-
-    getCalendarOutlook(monthNumber){
-        const daysInMonth = this.props.relativeMoment.daysInMonth()
-        const firstDay = this.props.relativeMoment.startOf('month').format('dddd')
+    getCalendarOutlook(monthNumber) {
+        const daysInCurrentMonth = this.props.relativeMoment.daysInMonth()
+        const firstDayOfCurrentMonth = this.props.relativeMoment.startOf('month').format('dddd')
         const daysInLastMonth = this.props.relativeMoment.subtract(1, 'month').daysInMonth()
-        const daysInCalendar = this.getdaysInCalendar(daysInMonth)
-        const monthArray = this.getMonthArray(daysInMonth, monthNumber)
-        this.divideUpDays(firstDay, daysInLastMonth, daysInCalendar, monthArray)
+        const daysInCalendar = this.generateCurrentMonthDays(daysInCurrentMonth)
+        const monthArray = this.generateMonthArray(daysInCurrentMonth, monthNumber)
+        const lastMonthDaysRemaining = countRemainingDays(firstDayOfCurrentMonth)
+        generateCalendarDaysAndMonth(daysInCalendar, lastMonthDaysRemaining, daysInLastMonth, monthArray)
         this.setState({ daysInCalendar, monthArray })
     }
 
-    componentDidUpdate(prevProps){
+    componentDidUpdate(prevProps) {
         if (this.props.relativeMoment._d !== prevProps.relativeMoment._d) {
-            const monthNumber = this.props.relativeMoment.month() + 1
-            this.setState({ monthNumber })
+            const monthNumber = this.props.relativeMoment.month()
             this.getCalendarOutlook(monthNumber)
         }
     }
 
     componentDidMount() {
-        const monthNumber = this.props.relativeMoment.month() + 1
+        const monthNumber = this.props.relativeMoment.month() 
         this.getCalendarOutlook(monthNumber)
     }
 
-    mapWeeks(){
-        let i = 0
+    mapWeeks() {
+        let weekSliceIndex = 0
         const weeks = []
-        while (i <= 42) {
-                weeks.push(<Week
-                    key={i}
+        while (weekSliceIndex <= 42) {
+            weeks.push(
+                <Week
+                    key={weekSliceIndex}
                     calendarYear={this.props.calendarYear}
-                    daysInMonth={this.state.daysInMonth}
+                    daysInCurrentMonth={this.state.daysInCurrentMonth}
                     currentMonthNumber={this.props.currentMonthNumber}
-                    monthArray={this.state.monthArray.slice(i, i + 7)}
-                    dayNumbers={this.state.daysInCalendar.slice(i, i + 7)} />)
-            i += 7
+                    monthArray={this.state.monthArray.slice(weekSliceIndex, weekSliceIndex + 7)}
+                    dayNumbers={this.state.daysInCalendar.slice(weekSliceIndex, weekSliceIndex + 7)} />
+            )
+            weekSliceIndex += 7
         }
         return weeks
     }
@@ -137,7 +83,7 @@ class Month extends Component {
                         </thead>
                         <thead className='days-of-week'>
                             <tr className='day-names'>
-                                <WeekDayNames />
+                                {weekDayNames()}
                             </tr>
                         </thead>
                         <tbody className='days-display-grid'>

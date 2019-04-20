@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Calendar from './frontend/lib/Calendar'
-import './frontend/styling/App.css';
 
 class App extends Component {
   render() {
