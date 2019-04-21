@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import Day from './Day'
-import '../styling/week.css'
+import '../styling/Week.css'
 
 const Week = (props) => {
     const { dayNumbers, calendarYear, onlyCurrentMonthDays, monthArray } = props

@@ -58,7 +58,7 @@ const ModalForm = (props) => {
                 </select>
             </div>
             <div className='modal-input'>
-                <label className='modal-label'> Day of the Month</label>
+                <label className='modal-label'> Other day of the Month</label>
                 <select
                     value={reminderDay}
                     name='reminderDay'

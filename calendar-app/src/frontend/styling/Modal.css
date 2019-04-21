@@ -50,11 +50,34 @@
     justify-content: center;
 }
 
+
 .modal-button {
     font-size: 20px;
     margin-left: 10px;
     margin-right: 10px;
     background: white;
+    border: 1px solid black;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+#close:hover {
+    font-size: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+    transition: 1s;
+    background: red;
+    border: 1px solid black;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+#submit:hover {
+    font-size: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+    transition: 1s;
+    background: green;
     border: 1px solid black;
     border-radius: 5px;
     margin-bottom: 20px;

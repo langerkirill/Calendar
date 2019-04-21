@@ -3,3 +3,35 @@
     justify-content: space-around;
     align-items: center;
 }
+
+.month-switch {
+    font-size: 15px;
+    margin-left: 10px;
+    margin-right: 10px;
+    background: white;
+    border: 1px solid black;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+#forward:hover {
+    font-size: 15px;
+    margin-left: 10px;
+    margin-right: 10px;
+    transition: 1s;
+    background: lightblue;
+    border: 1px solid black;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+#backward:hover {
+    font-size: 15px;
+    margin-left: 10px;
+    margin-right: 10px;
+    transition: 1s;
+    background: lightblue;
+    border: 1px solid black;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}

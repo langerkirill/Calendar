@@ -60,10 +60,10 @@ class Modal extends Component {
                     <div>
                         <div className={'modal-buttons'}>
                             <div>
-                                <button className='modal-button' onClick={(e) => this.handleSubmit(e)}>{firstWord}</button>
+                                <button id='submit' className='modal-button' onClick={(e) => this.handleSubmit(e)}>{firstWord}</button>
                             </div>
                             <div onClick={handleClose}>
-                                <button className='modal-button'>Close</button>
+                                <button id='close' className='modal-button'>Close</button>
                             </div>
                         </div>
                     </div>

@@ -6,7 +6,7 @@ import { generateCalendarDaysAndMonth,
         generateCurrentMonthDays,
         generateMonthArray } from '../../utils/monthUtils'
 import { getDaysInMonth, getFirstDayOfCurrentMonth, getDaysInLastMonth } from '../../utils/momentUtils'
-import '../styling/month.css'
+import '../styling/Month.css'
 
 class Month extends Component {
 
