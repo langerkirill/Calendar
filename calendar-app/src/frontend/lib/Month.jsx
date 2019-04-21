@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-import '../styling/month.css'
 import Week from './Week'
 import { weekDayNames } from '../components/WeekDayNames'
 import { generateCalendarDaysAndMonth,
-         countRemainingDays,
-         generateCurrentMonthDays,
-         generateMonthArray } from '../../utils/monthUtils'
+        countRemainingDays,
+        generateCurrentMonthDays,
+        generateMonthArray } from '../../utils/monthUtils'
 import { getDaysInMonth, getFirstDayOfCurrentMonth, getDaysInLastMonth } from '../../utils/momentUtils'
+import '../styling/month.css'
 
 class Month extends Component {
 

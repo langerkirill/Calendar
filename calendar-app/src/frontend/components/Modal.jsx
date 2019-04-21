@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import ModalForm from './ModalForm'
+import { SELECT_TIME } from '../../constants/appStrings'
 import '../styling/Modal.css'
 
 class Modal extends Component {
@@ -33,16 +34,16 @@ class Modal extends Component {
 
     handleSubmit(e) {
         e.preventDefault()
-        if (this.state.reminderTime === 'Select a Time' 
-            || this.state.reminderTitle === '' 
-            || this.state.reminderTime === null) return
+        const { reminderTime, reminderTitle } = this.state
+        if (reminderTime === SELECT_TIME 
+            || reminderTitle === '' 
+            || reminderTime === null) return
         this.props.onSubmit(this.state)
         this.props.handleClose()
     }
 
     render() {
-        const { handleClose, title } = this.props
-
+        const { handleClose, title, firstWord } = this.props
         return (
             <td className='modal-container' >
                 <div className='modal-class' >
@@ -51,7 +52,6 @@ class Modal extends Component {
                     </div>
                     <div className='modal-form-container'>
                         <ModalForm 
-
                             handleChange={this.handleChange}
                             handleSubmit={this.handleSubmit} 
                             {...this.state} 
@@ -60,7 +60,7 @@ class Modal extends Component {
                     <div>
                         <div className={'modal-buttons'}>
                             <div>
-                                <button className='modal-button' onClick={(e) => this.handleSubmit(e)}>Ok</button>
+                                <button className='modal-button' onClick={(e) => this.handleSubmit(e)}>{firstWord}</button>
                             </div>
                             <div onClick={handleClose}>
                                 <button className='modal-button'>Close</button>

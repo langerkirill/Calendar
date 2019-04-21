@@ -1,30 +1,33 @@
 import React from 'react'
 import { timesArray } from '../../constants/timesArray.js'
 import { colorsArray } from '../../constants/colorsArray.js'
+import { SELECT_DAY } from '../../constants/appStrings'
 
 const ModalForm = (props) => {
+    const { handleChange,
+        reminderTitle,
+        color,
+        reminderTime,
+        reminderDay,
+        onlyCurrentMonthDays } = props
+
     function timeOptions() {
         return timesArray.map((time, i) => <option key={i}>{time}</option>)
     }
 
     function dayOptions() {
-        return props.onlyCurrentMonthDays.map((day, i) => <option key={i}>{day}</option>)
+        if (onlyCurrentMonthDays[0] !== SELECT_DAY) onlyCurrentMonthDays.unshift(SELECT_DAY)
+        return onlyCurrentMonthDays.map((day, i) => <option key={i}>{day}</option>)
     }
 
     function colorOptions() {
         return colorsArray.map((color, i) => <option key={i}>{color}</option>)
     }
 
-    const { handleChange,
-            reminderTitle,
-            color,
-            reminderTime,
-            reminderDay } = props
-
     return (
         <form className='modal-form'>
             <div className='modal-input'>
-                <label className='modal-label'> Reminder Name</label>
+                <label className='modal-label'> Name</label>
                 <input
                     name='reminderTitle'
                     maxLength='30'
@@ -34,7 +37,7 @@ const ModalForm = (props) => {
                 </input>
             </div>
             <div className='modal-input'>
-                <label className='modal-label'> Reminder Color</label>
+                <label className='modal-label'> Color</label>
                 <select
                     value={color}
                     onChange={handleChange}
@@ -45,7 +48,7 @@ const ModalForm = (props) => {
                 </select>
             </div>
             <div className='modal-input'>
-                <label className='modal-label'> Reminder Time</label>
+                <label className='modal-label'> Time</label>
                 <select
                     value={reminderTime}
                     className='modal-entry'
@@ -55,7 +58,7 @@ const ModalForm = (props) => {
                 </select>
             </div>
             <div className='modal-input'>
-                <label className='modal-label'> Reminder Day of the Month</label>
+                <label className='modal-label'> Day of the Month</label>
                 <select
                     value={reminderDay}
                     name='reminderDay'

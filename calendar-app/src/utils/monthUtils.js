@@ -1,3 +1,5 @@
+import { MONDAY, TEUSDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY } from '../constants/appStrings'
+
 export const generateCalendarDaysAndMonth = (daysInCalendar, daysBeforeCurrentMonthBegins, daysInLastMonth, monthDataArray) => {
     while (daysBeforeCurrentMonthBegins > 0) {
         monthDataArray.unshift(null)
@@ -17,29 +19,28 @@ export const generateCalendarDaysAndMonth = (daysInCalendar, daysBeforeCurrentMo
 export const countRemainingDays = (firstDay) => {
     let daysToFill;
     switch (firstDay) {
-        case 'Monday':
+        case MONDAY:
             daysToFill = 0;
             break;
-        case 'Teusday':
+        case TEUSDAY:
             daysToFill = 1;
             break;
-        case 'Wednesday':
+        case WEDNESDAY:
             daysToFill = 2;
             break;
-        case 'Thursday':
+        case THURSDAY:
             daysToFill = 3;
             break;
-        case 'Friday':
+        case FRIDAY:
             daysToFill = 4;
             break;
-        case 'Saturday':
+        case SATURDAY:
             daysToFill = 5;
             break;
-        case 'Sunday':
+        case SUNDAY:
             daysToFill = 6;
             break;
         default:
-            daysToFill = null;
             break;
     }
     return daysToFill

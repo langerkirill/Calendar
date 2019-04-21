@@ -1,11 +1,12 @@
-import React, { Component, Fragment } from 'react'
+import React, { Fragment } from 'react'
 import Day from './Day'
 import '../styling/week.css'
 
-class Week extends Component {
-    mapDays(){
-        const { dayNumbers, calendarYear, onlyCurrentMonthDays, monthArray } = this.props
-        return dayNumbers.map((dayNumber, i) => 
+const Week = (props) => {
+    const { dayNumbers, calendarYear, onlyCurrentMonthDays, monthArray } = props
+
+    function mapDays() {
+        return dayNumbers.map((dayNumber, i) =>
             <Day
                 calendarYear={calendarYear}
                 onlyCurrentMonthDays={onlyCurrentMonthDays}
@@ -15,13 +16,11 @@ class Week extends Component {
                 dayNumber={dayNumber} />)
     }
 
-    render() {
-        return (
-            <Fragment>
-                {this.mapDays()}
-            </Fragment>
-        )
-    }
+    return (
+        <Fragment>
+            {mapDays()}
+        </Fragment>
+    )
 }
 
 export default Week

@@ -2,22 +2,23 @@ import React, { Component } from 'react'
 
 export default class Reminder extends Component {
     render() {
-        const { reminder, i } = this.props
+        const { reminder, i, handleDelete, handleUpdate } = this.props
+        const { color, reminderTime, reminderTitle } = reminder
         return (
-            <div className='event-row' key={i} style={{ backgroundColor: reminder.color }}>
+            <div className='event-row' key={i} style={{ backgroundColor: color }}>
                 <div className='event-text'>
-                    <div className='event-time' key={reminder.reminderTime._i}>
-                        {reminder.reminderTime._i.split(' ').slice(1)}
+                    <div className='event-time' key={reminderTime._i}>
+                        {reminderTime._i.split(' ').slice(1)}
                     </div>
-                    <div className='title-event' key={reminder.reminderTitle}>
-                        {reminder.reminderTitle}
+                    <div className='title-event' key={reminderTitle}>
+                        {reminderTitle}
                     </div>
                 </div>
                 <div className='event-buttons'>
-                    <button onClick={() => this.props.handleDelete(reminder)} key={-i}>
+                    <button onClick={() => handleDelete(reminder)} key={-i}>
                         <i className="fa fa-trash-o"></i>
                     </button>
-                    <button onClick={() => this.props.handleUpdate(reminder)}>
+                    <button onClick={() => handleUpdate(reminder)}>
                         <i className="fa fa-edit"></i>
                     </button>
                 </div>

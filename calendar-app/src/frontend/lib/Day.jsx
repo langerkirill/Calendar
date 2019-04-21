@@ -1,11 +1,11 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
-import '../styling/Day.css'
+import Reminder from './Reminder'
+import Modal from '../components/Modal'
 import { deleteReminder, addReminder, updateReminder } from '../../actions/reminderActions'
 import { isReminderPresent, sortRemindersByTime } from '../../utils/dayUtils'
 import { formatReminderTime, formatSelectedDay } from '../../utils/momentUtils'
-import Modal from '../components/Modal'
-import Reminder from './Reminder'
+import '../styling/Day.css'
 
 class Day extends Component {
     constructor(props) {
@@ -104,6 +104,7 @@ class Day extends Component {
                 {
                     this.state.modal 
                     ? <Modal
+                        firstWord={firstWord}
                         onlyCurrentMonthDays={onlyCurrentMonthDays}
                         selectedReminder={this.state.selectedReminder}
                         onSubmit={this.handleSubmit}
