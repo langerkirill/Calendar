@@ -14,7 +14,7 @@ class Month extends Component {
         super(props)
         this.state = {
             onlyCurrentMonthDays: [],
-            daysInCalendar: [],
+            allDaysInCalendar: [],
             monthArray: [],
         }
     }
@@ -27,18 +27,19 @@ class Month extends Component {
     }
 
     getCalendarOutlook(monthNumber) {
-        const daysInCurrentMonth = getDaysInMonth(this.props.relativeMoment)
-        const firstDayOfCurrentMonth = getFirstDayOfCurrentMonth(this.props.relativeMoment)
-        const daysInLastMonth = getDaysInLastMonth(this.props.relativeMoment)
-        const daysInCalendar = this.generateCurrentMonthDays(daysInCurrentMonth)
+        const { relativeMoment } = this.props
+        const daysInCurrentMonth = getDaysInMonth(relativeMoment)
+        const firstDayOfCurrentMonth = getFirstDayOfCurrentMonth(relativeMoment)
+        const daysInLastMonth = getDaysInLastMonth(relativeMoment)
+        const allDaysInCalendar = this.generateCurrentMonthDays(daysInCurrentMonth)
         const monthArray = generateMonthArray(daysInCurrentMonth, monthNumber)
         const lastMonthDaysRemaining = countRemainingDays(firstDayOfCurrentMonth)
-        generateCalendarDaysAndMonth(daysInCalendar, lastMonthDaysRemaining, daysInLastMonth, monthArray)
-        this.setState({ daysInCalendar, monthArray })
+        generateCalendarDaysAndMonth(allDaysInCalendar, lastMonthDaysRemaining, daysInLastMonth, monthArray)
+        this.setState({ allDaysInCalendar, monthArray })
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.relativeMoment._d !== prevProps.relativeMoment._d) {
+        if (this.props.relativeMoment !== prevProps.relativeMoment) {
             const monthNumber = this.props.relativeMoment.month()
             this.getCalendarOutlook(monthNumber)
         }
@@ -50,18 +51,17 @@ class Month extends Component {
     }
 
     mapWeeks() {
-        const { monthArray, daysInCalendar, onlyCurrentMonthDays } = this.state
+        const { monthArray, allDaysInCalendar, onlyCurrentMonthDays } = this.state
         let weekSliceIndex = 0
         const weeks = []
         while (weekSliceIndex <= 42) {
             weeks.push(
                 <Week
+                    {...this.props}
                     key={weekSliceIndex}
-                    calendarYear={this.props.calendarYear}
                     onlyCurrentMonthDays={onlyCurrentMonthDays}
-                    currentMonthNumber={this.props.currentMonthNumber}
                     monthArray={monthArray.slice(weekSliceIndex, weekSliceIndex + 7)}
-                    dayNumbers={daysInCalendar.slice(weekSliceIndex, weekSliceIndex + 7)} />
+                    dayNumbers={allDaysInCalendar.slice(weekSliceIndex, weekSliceIndex + 7)} />
             )
             weekSliceIndex += 7
         }

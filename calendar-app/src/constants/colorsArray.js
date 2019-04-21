@@ -146,4 +146,4 @@ export const colorsArray = [
     "White",
     "WhiteSmoke",
     "Yellow",
-    "YellowGreen"];
+    "YellowGreen"]

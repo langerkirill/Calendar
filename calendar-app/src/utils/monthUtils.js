@@ -7,41 +7,40 @@ export const generateCalendarDaysAndMonth = (daysInCalendar, daysBeforeCurrentMo
         daysInLastMonth--
         daysBeforeCurrentMonthBegins--
     }
-    let nextMonthDays = 1;
+    let nextMonthDays = 1
     while (daysInCalendar.length < 42) {
         daysInCalendar.push(nextMonthDays)
         monthDataArray.push(null)
         nextMonthDays++
     }
-    return daysInCalendar
 }
 
 export const countRemainingDays = (firstDay) => {
-    let daysToFill;
+    let daysToFill
     switch (firstDay) {
         case MONDAY:
-            daysToFill = 0;
-            break;
+            daysToFill = 0
+            break
         case TEUSDAY:
-            daysToFill = 1;
-            break;
+            daysToFill = 1
+            break
         case WEDNESDAY:
-            daysToFill = 2;
-            break;
+            daysToFill = 2
+            break
         case THURSDAY:
-            daysToFill = 3;
-            break;
+            daysToFill = 3
+            break
         case FRIDAY:
-            daysToFill = 4;
-            break;
+            daysToFill = 4
+            break
         case SATURDAY:
-            daysToFill = 5;
-            break;
+            daysToFill = 5
+            break
         case SUNDAY:
-            daysToFill = 6;
-            break;
+            daysToFill = 6
+            break
         default:
-            break;
+            break
     }
     return daysToFill
 }

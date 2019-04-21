@@ -36,6 +36,7 @@ class Modal extends Component {
         e.preventDefault()
         const { reminderTime, reminderTitle } = this.state
         if (reminderTime === SELECT_TIME 
+            || reminderTime === ''
             || reminderTitle === '' 
             || reminderTime === null) return
         this.props.onSubmit(this.state)
@@ -52,10 +53,10 @@ class Modal extends Component {
                     </div>
                     <div className='modal-form-container'>
                         <ModalForm 
+                            {...this.state}
+                            {...this.props}
                             handleChange={this.handleChange}
-                            handleSubmit={this.handleSubmit} 
-                            {...this.state} 
-                            {...this.props}/>
+                            handleSubmit={this.handleSubmit} />
                     </div>
                     <div>
                         <div className={'modal-buttons'}>

@@ -287,4 +287,4 @@ export const timesArray = [
 '11:40 PM',
 '11:45 PM',
 '11:50 PM',
-'11:55 PM'];
+'11:55 PM']

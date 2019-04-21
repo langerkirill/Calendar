@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import Calendar from './frontend/lib/Calendar'
 
 class App extends Component {
@@ -7,8 +7,8 @@ class App extends Component {
       <div className="App">
         <Calendar/>
       </div>
-    );
+    )
   }
 }
 
-export default App;
+export default App

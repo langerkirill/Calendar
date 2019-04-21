@@ -145,4 +145,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Day);
+export default connect(mapStateToProps, mapDispatchToProps)(Day)

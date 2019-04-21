@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import Month from './Month'
 import { createDateTextArray, addMonthIndex, getCurrentMoment } from '../../utils/momentUtils'
-import { FORWARD, BACKWARD, MONTH} from '../../constants/appStrings'
+import { FORWARD, BACKWARD, MONTH } from '../../constants/appStrings'
 import '../styling/Calendar.css'
 
 export default class Calendar extends Component {
@@ -37,8 +37,7 @@ export default class Calendar extends Component {
     }
 
     render() {
-        const { calendarTitle, calendarYear, relativeMoment } = this.state
-
+        const { relativeMoment } = this.state
         return (
             <Fragment>
                 <div className='app-container'>
@@ -48,10 +47,7 @@ export default class Calendar extends Component {
                         onClick={() => this.changeTheMonth(BACKWARD)}>&laquo; Previous Month</button>
                     {
                         relativeMoment 
-                            ? <Month 
-                                calendarTitle={calendarTitle} 
-                                calendarYear={calendarYear} 
-                                relativeMoment={relativeMoment}/> 
+                            ? <Month {...this.state}/> 
                             : null
                     }
                     <button 

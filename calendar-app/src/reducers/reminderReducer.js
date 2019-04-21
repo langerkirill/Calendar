@@ -10,8 +10,8 @@ export default (state = {}, action) => {
             delete newState[action.reminder.id]
             return merge({}, newState, { [action.reminder.id]: action.reminder })
         case DELETE_REMINDER:
-            delete newState[action.reminder.id];
-            return newState;
+            delete newState[action.reminder.id]
+            return newState
         default:
             return state
     }

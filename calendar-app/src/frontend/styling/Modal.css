@@ -2,7 +2,7 @@
     position: fixed;
     background:rgba(255,255,255,0.8);
     height: 785px;
-    width: 890px;
+    width: 888px;
     margin: auto;
     display: flex;
     align-items: center;
@@ -31,7 +31,8 @@
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    height: 240px;
+    height: 250px;
+    margin-top: 10px;
 }
 
 .modal-input {
