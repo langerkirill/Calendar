@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from 'react'
 import Month from './Month'
-import moment from 'moment'
 import '../styling/calendar.css'
+import { createDateTextArray, addMonthIndex, getCurrentMoment } from '../../utils/momentUtils'
+import { FORWARD, BACKWARD, MONTH} from '../../constants/appStrings'
 
 export default class Calendar extends Component {
 
@@ -16,22 +17,22 @@ export default class Calendar extends Component {
     }
 
     setCalendarState(relativeMoment, monthIndex = 0){
-        const dateTextArray = moment(relativeMoment).format('LL').split(' ')
+        const dateTextArray = createDateTextArray(relativeMoment)
         const calendarTitle = dateTextArray[0] + ' ' + dateTextArray[2]
         const calendarYear = dateTextArray[2]
         this.setState({ relativeMoment, monthIndex, calendarTitle, calendarYear })
     }
 
     changeTheMonth(direction) {
-        const monthIndex = direction === 'forward' 
+        const monthIndex = direction === FORWARD
             ? this.state.monthIndex + 1 
             : this.state.monthIndex - 1
-        const relativeMoment = moment().add(monthIndex, 'M')
+        const relativeMoment = addMonthIndex(monthIndex, MONTH)
         this.setCalendarState(relativeMoment, monthIndex)
     }
 
     componentDidMount(){
-        const relativeMoment = moment()
+        const relativeMoment = getCurrentMoment()
         this.setCalendarState(relativeMoment)
     }
 
@@ -39,7 +40,7 @@ export default class Calendar extends Component {
         return (
             <Fragment>
                 <div className='app-container'>
-                    <button onClick={() => this.changeTheMonth('backward')}>&laquo; Previous</button>
+                    <button onClick={() => this.changeTheMonth(BACKWARD)}>&laquo; Previous</button>
                     {
                         this.state.relativeMoment 
                             ? <Month 
@@ -48,7 +49,7 @@ export default class Calendar extends Component {
                                 relativeMoment={this.state.relativeMoment}/> 
                             : null
                     }
-                    <button onClick={() => this.changeTheMonth('forward')} >Next &raquo;</button>
+                    <button onClick={() => this.changeTheMonth(FORWARD)} >Next &raquo;</button>
                 </div>
             </Fragment>
         )

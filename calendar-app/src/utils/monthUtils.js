@@ -1,25 +1,21 @@
 export const generateCalendarDaysAndMonth = (daysInCalendar, daysBeforeCurrentMonthBegins, daysInLastMonth, monthDataArray) => {
-
     while (daysBeforeCurrentMonthBegins > 0) {
         monthDataArray.unshift(null)
         daysInCalendar.unshift(daysInLastMonth)
         daysInLastMonth--
         daysBeforeCurrentMonthBegins--
     }
-
     let nextMonthDays = 1;
     while (daysInCalendar.length < 42) {
         daysInCalendar.push(nextMonthDays)
         monthDataArray.push(null)
         nextMonthDays++
     }
-
     return daysInCalendar
 }
 
 export const countRemainingDays = (firstDay) => {
     let daysToFill;
-
     switch (firstDay) {
         case 'Monday':
             daysToFill = 0;
@@ -46,19 +42,25 @@ export const countRemainingDays = (firstDay) => {
             daysToFill = null;
             break;
     }
-
     return daysToFill
 }
 
 export const generateCurrentMonthDays = (daysInCurrentMonth) => {
     const arrDays = []
-
     while (daysInCurrentMonth) {
         const current = daysInCurrentMonth
         arrDays.unshift(current)
         daysInCurrentMonth--
     }
-
     const totalDays = arrDays.slice()
     return totalDays
+}
+
+export const generateMonthArray = (daysInCurrentMonth, monthNumber) => {
+    const monthArray = []
+    while (daysInCurrentMonth) {
+        monthArray.unshift(monthNumber)
+        daysInCurrentMonth--
+    }
+    return monthArray
 }

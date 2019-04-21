@@ -2,7 +2,11 @@ import React, { Component } from 'react'
 import '../styling/month.css'
 import Week from './Week'
 import { weekDayNames } from '../components/WeekDayNames'
-import { generateCalendarDaysAndMonth, countRemainingDays, generateCurrentMonthDays } from '../../utils/monthUtils'
+import { generateCalendarDaysAndMonth,
+         countRemainingDays,
+         generateCurrentMonthDays,
+         generateMonthArray } from '../../utils/monthUtils'
+import { getDaysInMonth, getFirstDayOfCurrentMonth, getDaysInLastMonth } from '../../utils/momentUtils'
 
 class Month extends Component {
 
@@ -21,21 +25,12 @@ class Month extends Component {
         return currentMonthDays
     }
 
-    generateMonthArray(daysInCurrentMonth, monthNumber) {
-        const monthArray = []
-        while (daysInCurrentMonth) {
-            monthArray.unshift(monthNumber)
-            daysInCurrentMonth--
-        }
-        return monthArray
-    }
-
     getCalendarOutlook(monthNumber) {
-        const daysInCurrentMonth = this.props.relativeMoment.daysInMonth()
-        const firstDayOfCurrentMonth = this.props.relativeMoment.startOf('month').format('dddd')
-        const daysInLastMonth = this.props.relativeMoment.subtract(1, 'month').daysInMonth()
+        const daysInCurrentMonth = getDaysInMonth(this.props.relativeMoment)
+        const firstDayOfCurrentMonth = getFirstDayOfCurrentMonth(this.props.relativeMoment)
+        const daysInLastMonth = getDaysInLastMonth(this.props.relativeMoment)
         const daysInCalendar = this.generateCurrentMonthDays(daysInCurrentMonth)
-        const monthArray = this.generateMonthArray(daysInCurrentMonth, monthNumber)
+        const monthArray = generateMonthArray(daysInCurrentMonth, monthNumber)
         const lastMonthDaysRemaining = countRemainingDays(firstDayOfCurrentMonth)
         generateCalendarDaysAndMonth(daysInCalendar, lastMonthDaysRemaining, daysInLastMonth, monthArray)
         this.setState({ daysInCalendar, monthArray })
