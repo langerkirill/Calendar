@@ -7,16 +7,15 @@
 
 .calendar-container {
     border: 1px solid black;
-    height: 862px;
-    width: 896px;
+    height: 860px;
+    width: 893px;
 }
 
 .day-names {
-    /* border: 1px solid black; */
-    width: 892px;
-    height: 30px;
+    width: 890.5px;
+    height: 29px;
     display: grid;
-    grid-template-columns: repeat(7, .95fr);
+    grid-template-columns: repeat(7, 1fr);
 }
 
 .days-of-week {

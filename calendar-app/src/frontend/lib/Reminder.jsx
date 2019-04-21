@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import '../styling/Reminder.css'
 
 export default class Reminder extends Component {
     render() {
