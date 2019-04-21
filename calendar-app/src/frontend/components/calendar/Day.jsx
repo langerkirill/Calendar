@@ -1,11 +1,11 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import Reminder from './Reminder'
-import Modal from '../components/Modal'
-import { deleteReminder, addReminder, updateReminder } from '../../actions/reminderActions'
-import { isReminderPresent, sortRemindersByTime } from '../../utils/dayUtils'
-import { formatReminderTime, formatSelectedDay } from '../../utils/momentUtils'
-import '../styling/Day.css'
+import Modal from '../../components/helpers/Modal'
+import { deleteReminder, addReminder, updateReminder } from '../../../actions/reminderActions'
+import { isReminderPresent, sortRemindersByTime } from '../../../utils/dayUtils'
+import { formatReminderTime, formatSelectedDay } from '../../../utils/momentUtils'
+import '../../styling/Day.css'
 
 class Day extends Component {
     constructor(props) {

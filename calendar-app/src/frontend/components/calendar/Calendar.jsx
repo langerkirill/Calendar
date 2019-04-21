@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react'
 import Month from './Month'
-import { createDateTextArray, addMonthIndex, getCurrentMoment } from '../../utils/momentUtils'
-import { FORWARD, BACKWARD, MONTH } from '../../constants/appStrings'
-import '../styling/Calendar.css'
+import { createDateTextArray, addMonthIndex, getCurrentMoment } from '../../../utils/momentUtils'
+import { FORWARD, BACKWARD, MONTH } from '../../../constants/appStrings'
+import '../../styling/Calendar.css'
 
 export default class Calendar extends Component {
 

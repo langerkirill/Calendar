@@ -1,11 +1,11 @@
 import React, { Fragment } from 'react'
 import Day from './Day'
-import '../styling/Week.css'
+import '../../styling/Week.css'
 
 const Week = (props) => {
     const { dayNumbers, calendarYear, onlyCurrentMonthDays, monthArray } = props
 
-    function mapDays() {
+    const mapDays = () => {
         return dayNumbers.map((dayNumber, i) =>
             <Day
                 calendarYear={calendarYear}

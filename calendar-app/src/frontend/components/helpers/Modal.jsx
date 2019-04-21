@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import ModalForm from './ModalForm'
-import { SELECT_TIME } from '../../constants/appStrings'
-import '../styling/Modal.css'
+import ModalForm from '../helpers/ModalForm'
+import { SELECT_TIME } from '../../../constants/appStrings'
+import '../../styling/Modal.css'
 
 class Modal extends Component {
 

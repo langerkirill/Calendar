@@ -1,7 +1,7 @@
 import React from 'react'
-import { timesArray } from '../../constants/timesArray.js'
-import { colorsArray } from '../../constants/colorsArray.js'
-import { SELECT_DAY } from '../../constants/appStrings'
+import { timesArray } from '../../../constants/timesArray.js'
+import { colorsArray } from '../../../constants/colorsArray.js'
+import { SELECT_DAY } from '../../../constants/appStrings'
 
 const ModalForm = (props) => {
     const { handleChange,
@@ -11,16 +11,16 @@ const ModalForm = (props) => {
         reminderDay,
         onlyCurrentMonthDays } = props
 
-    function timeOptions() {
+    const timeOptions = () => {
         return timesArray.map((time, i) => <option key={i}>{time}</option>)
     }
 
-    function dayOptions() {
+    const dayOptions = () => {
         if (onlyCurrentMonthDays[0] !== SELECT_DAY) onlyCurrentMonthDays.unshift(SELECT_DAY)
         return onlyCurrentMonthDays.map((day, i) => <option key={i}>{day}</option>)
     }
 
-    function colorOptions() {
+    const colorOptions = () => {
         return colorsArray.map((color, i) => <option key={i}>{color}</option>)
     }
 

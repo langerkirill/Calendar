@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Calendar from './frontend/lib/Calendar'
+import Calendar from './frontend/components/calendar/Calendar'
 
 class App extends Component {
   render() {

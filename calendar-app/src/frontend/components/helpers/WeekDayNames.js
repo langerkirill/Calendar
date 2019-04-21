@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { daysOfWeekArray } from '../../constants/daysOfWeekArray'
+import { daysOfWeekArray } from '../../../constants/daysOfWeekArray'
 
 export const weekDayNames = () => {
     return (
