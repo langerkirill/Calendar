@@ -37,16 +37,18 @@ export default class Calendar extends Component {
     }
 
     render() {
+        const { calendarTitle, calendarYear, relativeMoment } = this.state
+
         return (
             <Fragment>
                 <div className='app-container'>
                     <button onClick={() => this.changeTheMonth(BACKWARD)}>&laquo; Previous</button>
                     {
-                        this.state.relativeMoment 
+                        relativeMoment 
                             ? <Month 
-                                calendarTitle={this.state.calendarTitle} 
-                                calendarYear={this.state.calendarYear} 
-                                relativeMoment={this.state.relativeMoment}/> 
+                                calendarTitle={calendarTitle} 
+                                calendarYear={calendarYear} 
+                                relativeMoment={relativeMoment}/> 
                             : null
                     }
                     <button onClick={() => this.changeTheMonth(FORWARD)} >Next &raquo;</button>

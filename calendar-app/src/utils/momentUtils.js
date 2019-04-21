@@ -23,3 +23,11 @@ export const getFirstDayOfCurrentMonth = (givenMoment) => {
 export const getDaysInLastMonth = (givenMoment) => {
     return givenMoment.subtract(1, 'month').daysInMonth()
 }
+
+export const formatReminderTime = (calendarYear, monthNumber, day, reminderTime) => {
+    return moment(`${calendarYear}-${monthNumber}-${day} ${reminderTime}`, "YYYY-MM-DD HH:mm A")
+}
+
+export const formatSelectedDay = (calendarYear, monthNumber, dayNumber) => {
+    return moment(`${calendarYear}-${monthNumber + 1}-${dayNumber}`, 'YYYY-MM-DD').format('LL')
+}

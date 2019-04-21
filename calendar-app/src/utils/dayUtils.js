@@ -11,6 +11,6 @@ export const isReminderPresent = (reminders, dayNumber, monthNumber, calendarYea
     })
 }
 
-export const sortMomentsByTime = (first, second) => {
+export const sortRemindersByTime = (first, second) => {
     return first < second ? -1 : first > second ? 1 : 0;
 }

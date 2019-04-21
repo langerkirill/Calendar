@@ -2,10 +2,10 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import '../styling/Day.css'
 import { deleteReminder, addReminder, updateReminder } from '../../actions/reminderActions'
-import { isReminderPresent, sortMomentsByTime } from '../../utils/dayUtils'
+import { isReminderPresent, sortRemindersByTime } from '../../utils/dayUtils'
+import { formatReminderTime, formatSelectedDay } from '../../utils/momentUtils'
 import Modal from '../components/Modal'
 import Reminder from './Reminder'
-import moment from 'moment'
 
 class Day extends Component {
     constructor(props) {
@@ -39,7 +39,7 @@ class Day extends Component {
     formatReminder(reminder) {
         const { dayNumber, monthNumber, calendarYear } = this.props
         const day = reminder.reminderDay ? reminder.reminderDay : dayNumber
-        const reminderTime = moment(`${calendarYear}-${monthNumber}-${day} ${reminder.reminderTime}`, "YYYY-MM-DD HH:mm A")
+        const reminderTime = formatReminderTime(calendarYear, monthNumber, day, reminder.reminderTime)
         reminder['reminderTime'] = reminderTime
         if (!reminder.id) reminder['id'] = this.props.reminders.length + 1
         return reminder
@@ -50,7 +50,7 @@ class Day extends Component {
         let filteredReminders = isReminderPresent(reminders, dayNumber, monthNumber, calendarYear)
         filteredReminders = filteredReminders.filter((reminder) => reminder != null)
         const sortedReminders = filteredReminders.sort((first, second) =>
-            sortMomentsByTime(first.reminderTime, second.reminderTime))
+            sortRemindersByTime(first.reminderTime, second.reminderTime))
         return sortedReminders
     }
 
@@ -66,11 +66,11 @@ class Day extends Component {
 
     handleSubmit(reminder) {
         this.formatReminder(reminder)
-        this.state.selectedReminder == null
-        ? this.props.addReminder(reminder)
-        : this.props.updateReminder(reminder)
         if (this.state.selectedReminder) {
+            this.props.updateReminder(reminder)
             this.setState({ selectedReminder: null })
+        } else {
+            this.props.addReminder(reminder)
         }
     }
 
@@ -90,13 +90,12 @@ class Day extends Component {
         }
     }
 
-    selectedDay(){
-        const { calendarYear, monthNumber, dayNumber } = this.props
-        return moment(`${calendarYear}-${monthNumber + 1}-${dayNumber}`, 'YYYY-MM-DD').format('LL')
-    }
-
     render() {
-        const isDisabled = this.props.isDisabled
+        const { isDisabled, 
+                dayNumber, 
+                monthNumber, 
+                onlyCurrentMonthDays, 
+                calendarYear } = this.props
         const dayBackground = isDisabled ? 'grey' : 'white'
         const firstWord = this.state.selectedReminder ? 'Update' : 'Schedule'
 
@@ -105,10 +104,10 @@ class Day extends Component {
                 {
                     this.state.modal 
                     ? <Modal
-                        daysInCurrentMonth={this.props.daysInCurrentMonth}
+                        onlyCurrentMonthDays={onlyCurrentMonthDays}
                         selectedReminder={this.state.selectedReminder}
                         onSubmit={this.handleSubmit}
-                        title={`${firstWord} your reminder for ${this.selectedDay()} below:`}
+                        title={`${firstWord} your reminder for ${formatSelectedDay(calendarYear, monthNumber, dayNumber)} below:`}
                         handleClose={() => this.setState({ modal: false })} /> 
                     : null
                 }
@@ -116,10 +115,10 @@ class Day extends Component {
                     onClick={
                         isDisabled
                             ? null
-                            : (e) => this.handleClick(e, this.props.dayNumber, this.props.monthNumber)
+                            : (e) => this.handleClick(e, dayNumber, monthNumber)
                     }
                     className={`week-row ${dayBackground}`}>
-                    <div className='day-number 1'>{this.props.dayNumber}</div>
+                    <div className='day-number 1'>{dayNumber}</div>
                     <div className='day-box' >
                         <div className='spacing'></div>
                         {this.mapReminders()}

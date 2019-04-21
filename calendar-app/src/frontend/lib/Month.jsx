@@ -13,7 +13,7 @@ class Month extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            daysInCurrentMonth: [],
+            onlyCurrentMonthDays: [],
             daysInCalendar: [],
             monthArray: [],
         }
@@ -21,7 +21,8 @@ class Month extends Component {
 
     generateCurrentMonthDays(daysInCurrentMonth) {
         const currentMonthDays = generateCurrentMonthDays(daysInCurrentMonth)
-        this.setState({ daysInCurrentMonth: currentMonthDays })
+        const onlyCurrentMonthDays = currentMonthDays.slice()
+        this.setState({ onlyCurrentMonthDays })
         return currentMonthDays
     }
 
@@ -49,6 +50,7 @@ class Month extends Component {
     }
 
     mapWeeks() {
+        const { monthArray, daysInCalendar, onlyCurrentMonthDays } = this.state
         let weekSliceIndex = 0
         const weeks = []
         while (weekSliceIndex <= 42) {
@@ -56,10 +58,10 @@ class Month extends Component {
                 <Week
                     key={weekSliceIndex}
                     calendarYear={this.props.calendarYear}
-                    daysInCurrentMonth={this.state.daysInCurrentMonth}
+                    onlyCurrentMonthDays={onlyCurrentMonthDays}
                     currentMonthNumber={this.props.currentMonthNumber}
-                    monthArray={this.state.monthArray.slice(weekSliceIndex, weekSliceIndex + 7)}
-                    dayNumbers={this.state.daysInCalendar.slice(weekSliceIndex, weekSliceIndex + 7)} />
+                    monthArray={monthArray.slice(weekSliceIndex, weekSliceIndex + 7)}
+                    dayNumbers={daysInCalendar.slice(weekSliceIndex, weekSliceIndex + 7)} />
             )
             weekSliceIndex += 7
         }

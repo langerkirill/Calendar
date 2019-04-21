@@ -4,12 +4,13 @@ import '../styling/week.css'
 
 class Week extends Component {
     mapDays(){
-        return this.props.dayNumbers.map((dayNumber, i) => 
+        const { dayNumbers, calendarYear, onlyCurrentMonthDays, monthArray } = this.props
+        return dayNumbers.map((dayNumber, i) => 
             <Day
-                calendarYear={this.props.calendarYear}
-                daysInCurrentMonth={this.props.daysInCurrentMonth}
-                isDisabled={this.props.monthArray[i] === null ? true : false}
-                monthNumber={this.props.monthArray[i]}
+                calendarYear={calendarYear}
+                onlyCurrentMonthDays={onlyCurrentMonthDays}
+                isDisabled={monthArray[i] === null ? true : false}
+                monthNumber={monthArray[i]}
                 key={dayNumber}
                 dayNumber={dayNumber} />)
     }

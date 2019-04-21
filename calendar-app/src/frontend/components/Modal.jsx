@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
+import ModalForm from './ModalForm'
 import '../styling/Modal.css'
-import { timesArray } from '../../constants/timesArray.js'
-import { colorsArray } from '../../constants/colorsArray.js'
 
 class Modal extends Component {
 
@@ -41,18 +40,6 @@ class Modal extends Component {
         this.props.handleClose()
     }
 
-    timeOptions() {
-        return timesArray.map((time, i) => <option key={i}>{time}</option>)
-    }
-
-    dayOptions() {
-        return this.props.daysInCurrentMonth.map((day, i) => <option key={i}>{day}</option>)
-    }
-
-    colorOptions() {
-        return colorsArray.map((color, i) => <option key={i}>{color}</option>)
-    }
-
     render() {
         const { handleClose, title } = this.props
 
@@ -63,53 +50,12 @@ class Modal extends Component {
                         {title ? <div className='modal-title'>{title}</div> : null}
                     </div>
                     <div className='modal-form-container'>
-                        <form className='modal-form'>
-                            <div className='modal-input'>
-                                <label className='modal-label'> Reminder Name
-                                </label>
-                                <input 
-                                    name='reminderTitle' 
-                                    maxLength='30' 
-                                    className='modal-entry' 
-                                    onChange={(e) => this.handleChange(e)} 
-                                    defaultValue={this.state.reminderTitle}>
-                                </input>
-                            </div>
-                            <div className='modal-input'>
-                                <label className='modal-label'> Reminder Color
-                                </label>
-                                <select
-                                    value={this.state.color}
-                                    onChange={(e) => this.handleChange(e)}
-                                    className='modal-entry' 
-                                    style={{ backgroundColor: this.state.color }}
-                                    name='color'>
-                                    {this.colorOptions()}
-                                </select>
-                            </div>
-                            <div className='modal-input'>
-                                <label className='modal-label'> Reminder Time
-                                </label>
-                                <select 
-                                    value={this.state.reminderTime}
-                                    className='modal-entry' 
-                                    name='reminderTime' 
-                                    onChange={this.handleChange}>
-                                    {this.timeOptions()}
-                                </select>
-                            </div>
-                            <div className='modal-input'>
-                                <label className='modal-label'> Reminder Day of the Month
-                                </label>
-                                <select 
-                                    value={this.state.reminderDay}
-                                    name='reminderDay' 
-                                    className='modal-entry' 
-                                    onChange={this.handleChange}>
-                                    {this.dayOptions()}
-                                </select>
-                            </div>
-                        </form>
+                        <ModalForm 
+
+                            handleChange={this.handleChange}
+                            handleSubmit={this.handleSubmit} 
+                            {...this.state} 
+                            {...this.props}/>
                     </div>
                     <div>
                         <div className={'modal-buttons'}>
