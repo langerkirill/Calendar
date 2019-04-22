@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-plusplus */
 import { MONDAY, TEUSDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY } from '../constants/appStrings'
 
 export const generateCalendarDaysAndMonth = (daysInCalendar, daysBeforeCurrentMonthBegins, daysInLastMonth, monthDataArray) => {

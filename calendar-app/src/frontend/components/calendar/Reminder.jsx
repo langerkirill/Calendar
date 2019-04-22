@@ -15,10 +15,14 @@ const Reminder = (props) => {
                 </div>
             </div>
             <div className='event-buttons'>
-                <button onClick={() => handleDelete(reminder)} key={-i}>
+                <button 
+                    type='button'
+                    onClick={() => handleDelete(reminder)}>
                     <i className="fa fa-trash-o"></i>
                 </button>
-                <button onClick={() => handleUpdate(reminder)}>
+                <button 
+                    type='button'
+                    onClick={() => handleUpdate(reminder)}>
                     <i className="fa fa-edit"></i>
                 </button>
             </div>

@@ -1,7 +1,9 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable no-param-reassign */
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import Reminder from './Reminder'
-import Modal from '../../components/helpers/Modal'
+import Modal from '../helpers/Modal'
 import { deleteReminder, addReminder, updateReminder } from '../../../actions/reminderActions'
 import { isReminderPresent, sortRemindersByTime } from '../../../utils/dayUtils'
 import { formatReminderTime, formatSelectedDay } from '../../../utils/momentUtils'
@@ -23,25 +25,23 @@ class Day extends Component {
     }
 
     componentDidMount() {
-        let { reminders } = this.props
-        reminders = this.findRelevantReminders(reminders)
-        this.setState({ reminders })
+        const { reminders } = this.props
+        this.findRelevantReminders(reminders)
     }
 
     componentDidUpdate(prevProps) {
-        let { reminders, monthNumber } = this.props
+        const { reminders, monthNumber } = this.props
         if (reminders !== prevProps.reminders || monthNumber !== prevProps.monthNumber) {
-            reminders = this.findRelevantReminders(reminders)
-            this.setState({ reminders })
+            this.findRelevantReminders(reminders)
         }
     }
 
     formatReminder(reminder) {
-        const { dayNumber, monthNumber, calendarYear } = this.props
+        const { dayNumber, monthNumber, calendarYear, reminders } = this.props
         const day = reminder.reminderDay ? reminder.reminderDay : dayNumber
         const reminderTime = formatReminderTime(calendarYear, monthNumber, day, reminder.reminderTime)
-        reminder['reminderTime'] = reminderTime
-        if (!reminder.id) reminder['id'] = this.props.reminders.length + 1
+        reminder.reminderTime = reminderTime
+        if (!reminder.id) reminder.id = reminders.length + 1
         return reminder
     }
 
@@ -51,26 +51,29 @@ class Day extends Component {
         filteredReminders = filteredReminders.filter((reminder) => reminder != null)
         const sortedReminders = filteredReminders.sort((first, second) =>
             sortRemindersByTime(first.reminderTime, second.reminderTime))
-        return sortedReminders
+        this.setState({ reminders: sortedReminders })
     }
 
-    handleClick(event, dayNumber, monthNumber) {
+    handleClick(event) {
         if (event.target.className === 'day-box') {
-            this.setState({ modal: true, dayNumber, monthNumber })
+            this.setState({ modal: true })
         }
     }
 
     handleDelete(reminder) {
-        this.props.deleteReminder(reminder)
+        const { removeReminder } = this.props
+        removeReminder(reminder)
     }
 
     handleSubmit(reminder) {
         this.formatReminder(reminder)
-        if (this.state.selectedReminder) {
-            this.props.updateReminder(reminder)
+        const { editReminder, createReminder } = this.props
+        const { selectedReminder } = this.state
+        if (selectedReminder) {
+            editReminder(reminder)
             this.setState({ selectedReminder: null })
         } else {
-            this.props.addReminder(reminder)
+            createReminder(reminder)
         }
     }
 
@@ -79,15 +82,17 @@ class Day extends Component {
     }
 
     mapReminders() {
-        if (this.state.reminders.length > 0) {
-            return this.state.reminders.map((reminder, i) => 
+        const { reminders } = this.state
+        if (reminders.length > 0) {
+            return reminders.map((reminder, i) => 
                 <Reminder
                     handleDelete={this.handleDelete}
                     handleUpdate={this.handleUpdate}
-                    key={i} 
+                    key={reminder.reminderTime} 
                     i={i} 
                     reminder={reminder}/>)
         }
+        return null
     }
 
     render() {
@@ -96,17 +101,18 @@ class Day extends Component {
                 monthNumber, 
                 onlyCurrentMonthDays, 
                 calendarYear } = this.props
+        const { selectedReminder, modal } = this.state
         const dayBackground = isDisabled ? 'grey' : 'white'
-        const firstWord = this.state.selectedReminder ? 'Update' : 'Schedule'
+        const firstWord = selectedReminder ? 'Update' : 'Schedule'
 
         return (
             <Fragment>
                 {
-                    this.state.modal 
+                    modal 
                     ? <Modal
                         firstWord={firstWord}
                         onlyCurrentMonthDays={onlyCurrentMonthDays}
-                        selectedReminder={this.state.selectedReminder}
+                        selectedReminder={selectedReminder}
                         onSubmit={this.handleSubmit}
                         title={`${firstWord} your reminder for ${formatSelectedDay(calendarYear, monthNumber, dayNumber)} below:`}
                         handleClose={() => this.setState({ modal: false })} /> 
@@ -131,7 +137,7 @@ class Day extends Component {
 }
 
 const mapStateToProps = state => {
-    let reminders = Object.values(state.reminderState)
+    const reminders = Object.values(state.reminderState)
     return {
         reminders
     }
@@ -139,9 +145,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        deleteReminder: (reminder) => dispatch(deleteReminder(reminder)),
-        updateReminder: (reminder) => dispatch(updateReminder(reminder)),
-        addReminder: (reminder) => dispatch(addReminder(reminder))
+        removeReminder: (reminder) => dispatch(deleteReminder(reminder)),
+        editReminder: (reminder) => dispatch(updateReminder(reminder)),
+        createReminder: (reminder) => dispatch(addReminder(reminder))
     }
 }
 

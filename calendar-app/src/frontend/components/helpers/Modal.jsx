@@ -1,5 +1,6 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { Component } from 'react'
-import ModalForm from '../helpers/ModalForm'
+import ModalForm from './ModalForm'
 import { SELECT_TIME } from '../../../constants/appStrings'
 import '../../styling/Modal.css'
 
@@ -19,9 +20,10 @@ class Modal extends Component {
     }
 
     componentDidMount(){
-        if (this.props.selectedReminder) {
-            let { reminderTime, reminderTitle, reminderDay, color, id } = this.props.selectedReminder
-            reminderTime = reminderTime._i.split(' ')
+        const { selectedReminder } = this.props
+        if (selectedReminder) {
+            const { reminderTitle, reminderDay, color, id } = selectedReminder
+            let reminderTime = selectedReminder.reminderTime._i.split(' ')
             reminderTime.shift()
             reminderTime = reminderTime.join(' ')
             this.setState({ reminderTime, reminderTitle, reminderDay, color, id })
@@ -35,12 +37,13 @@ class Modal extends Component {
     handleSubmit(e) {
         e.preventDefault()
         const { reminderTime, reminderTitle } = this.state
+        const { onSubmit, handleClose } = this.props
         if (reminderTime === SELECT_TIME 
             || reminderTime === ''
             || reminderTitle === '' 
             || reminderTime === null) return
-        this.props.onSubmit(this.state)
-        this.props.handleClose()
+        onSubmit(this.state)
+        handleClose()
     }
 
     render() {
@@ -59,12 +62,20 @@ class Modal extends Component {
                             handleSubmit={this.handleSubmit} />
                     </div>
                     <div>
-                        <div className={'modal-buttons'}>
+                        <div className='modal-buttons'>
                             <div>
-                                <button id='submit' className='modal-button' onClick={(e) => this.handleSubmit(e)}>{firstWord}</button>
+                                <button 
+                                    type='submit'
+                                    id='submit' 
+                                    className='modal-button' 
+                                    onClick={(e) => this.handleSubmit(e)}>{firstWord}</button>
                             </div>
-                            <div onClick={handleClose}>
-                                <button id='close' className='modal-button'>Close</button>
+                            <div >
+                                <button 
+                                    type='button'
+                                    id='close' 
+                                    className='modal-button'
+                                    onClick={handleClose}>Close</button>
                             </div>
                         </div>
                     </div>

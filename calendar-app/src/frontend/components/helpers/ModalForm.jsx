@@ -1,6 +1,8 @@
+/* eslint-disable jsx-a11y/label-has-for */
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import React from 'react'
-import { timesArray } from '../../../constants/timesArray.js'
-import { colorsArray } from '../../../constants/colorsArray.js'
+import { timesArray } from '../../../constants/timesArray'
+import { colorsArray } from '../../../constants/colorsArray'
 import { SELECT_DAY } from '../../../constants/appStrings'
 
 const ModalForm = (props) => {
@@ -12,16 +14,16 @@ const ModalForm = (props) => {
         onlyCurrentMonthDays } = props
 
     const timeOptions = () => {
-        return timesArray.map((time, i) => <option key={i}>{time}</option>)
+        return timesArray.map((time) => <option key={time}>{time}</option>)
     }
 
     const dayOptions = () => {
         if (onlyCurrentMonthDays[0] !== SELECT_DAY) onlyCurrentMonthDays.unshift(SELECT_DAY)
-        return onlyCurrentMonthDays.map((day, i) => <option key={i}>{day}</option>)
+        return onlyCurrentMonthDays.map((day) => <option key={day}>{day}</option>)
     }
 
     const colorOptions = () => {
-        return colorsArray.map((color, i) => <option key={i}>{color}</option>)
+        return colorsArray.map((mapColor) => <option key={mapColor}>{mapColor}</option>)
     }
 
     return (
@@ -33,8 +35,7 @@ const ModalForm = (props) => {
                     maxLength='30'
                     className='modal-entry'
                     onChange={handleChange}
-                    defaultValue={reminderTitle}>
-                </input>
+                    defaultValue={reminderTitle}/>
             </div>
             <div className='modal-input'>
                 <label className='modal-label'> Color</label>

@@ -10,7 +10,7 @@ const Week = (props) => {
             <Day
                 calendarYear={calendarYear}
                 onlyCurrentMonthDays={onlyCurrentMonthDays}
-                isDisabled={monthArray[i] === null ? true : false}
+                isDisabled={monthArray[i] === null}
                 monthNumber={monthArray[i]}
                 key={dayNumber}
                 dayNumber={dayNumber} />)

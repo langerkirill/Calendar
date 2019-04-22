@@ -12,6 +12,10 @@ export const getCurrentMoment = () => {
     return moment()
 }
 
+export const getCurrentMonthNumber = (givenMoment) => {
+    return givenMoment.month()
+}
+
 export const getDaysInMonth = (givenMoment) => {
     return givenMoment.daysInMonth()
 }

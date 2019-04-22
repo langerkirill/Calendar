@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import Week from './Week'
-import { weekDayNames } from '../helpers/WeekDayNames'
+import weekDayNames from '../helpers/WeekDayNames'
 import { generateCalendarDaysAndMonth,
         countRemainingDays,
         generateCurrentMonthDays,
         generateMonthArray } from '../../../utils/monthUtils'
-import { getDaysInMonth, getFirstDayOfCurrentMonth, getDaysInLastMonth } from '../../../utils/momentUtils'
+import { getDaysInMonth, getFirstDayOfCurrentMonth, getDaysInLastMonth, getCurrentMonthNumber } from '../../../utils/momentUtils'
 import '../../styling/Month.css'
 
 class Month extends Component {
@@ -19,11 +19,18 @@ class Month extends Component {
         }
     }
 
-    generateCurrentMonthDays(daysInCurrentMonth) {
-        const currentMonthDays = generateCurrentMonthDays(daysInCurrentMonth)
-        const onlyCurrentMonthDays = currentMonthDays.slice()
-        this.setState({ onlyCurrentMonthDays })
-        return currentMonthDays
+    componentDidMount() {
+        const { relativeMoment } = this.props
+        const monthNumber = getCurrentMonthNumber(relativeMoment)
+        this.getCalendarOutlook(monthNumber)
+    }
+
+    componentDidUpdate(prevProps) {
+        const { relativeMoment } = this.props
+        if (relativeMoment !== prevProps.relativeMoment) {
+            const monthNumber = getCurrentMonthNumber(relativeMoment)
+            this.getCalendarOutlook(monthNumber)
+        }
     }
 
     getCalendarOutlook(monthNumber) {
@@ -38,16 +45,11 @@ class Month extends Component {
         this.setState({ allDaysInCalendar, monthArray })
     }
 
-    componentDidUpdate(prevProps) {
-        if (this.props.relativeMoment !== prevProps.relativeMoment) {
-            const monthNumber = this.props.relativeMoment.month()
-            this.getCalendarOutlook(monthNumber)
-        }
-    }
-
-    componentDidMount() {
-        const monthNumber = this.props.relativeMoment.month() 
-        this.getCalendarOutlook(monthNumber)
+    generateCurrentMonthDays(daysInCurrentMonth) {
+        const currentMonthDays = generateCurrentMonthDays(daysInCurrentMonth)
+        const onlyCurrentMonthDays = currentMonthDays.slice()
+        this.setState({ onlyCurrentMonthDays })
+        return currentMonthDays
     }
 
     mapWeeks() {
@@ -69,13 +71,14 @@ class Month extends Component {
     }
 
     render() {
+        const { calendarTitle } = this.props
         return (
             <div className="calendar-positioner">
                 <div className='calendar-container'>
                     <table>
                         <thead className='days-of-week'>
                             <tr className='calendar-title'>
-                                <th className='calendar-title'>{this.props.calendarTitle}</th>
+                                <th className='calendar-title'>{calendarTitle}</th>
                             </tr>
                         </thead>
                         <thead className='days-of-week'>

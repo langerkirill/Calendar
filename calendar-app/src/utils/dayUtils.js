@@ -12,5 +12,6 @@ export const isReminderPresent = (reminders, dayNumber, monthNumber, calendarYea
 }
 
 export const sortRemindersByTime = (first, second) => {
+    // eslint-disable-next-line no-nested-ternary
     return first < second ? -1 : first > second ? 1 : 0
 }

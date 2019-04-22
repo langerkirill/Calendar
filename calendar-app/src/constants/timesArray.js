@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 export const timesArray = [
 'Select a Time',
 '12:00 AM',
