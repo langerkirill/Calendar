@@ -29,6 +29,7 @@
 }
 
 .week-row {
+    overflow: hidden;
     height: 127px;
     width: 123.2px;
     border: 1px solid black;
