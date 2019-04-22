@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { Component } from 'react'
 import ModalForm from './ModalForm'
-import { SELECT_TIME } from '../../../constants/appStrings'
+import { SELECT_TIME, SELECT_DAY } from '../../../constants/appStrings'
 import '../../styling/Modal.css'
 
 class Modal extends Component {
@@ -36,12 +36,13 @@ class Modal extends Component {
 
     handleSubmit(e) {
         e.preventDefault()
-        const { reminderTime, reminderTitle } = this.state
+        const { reminderTime, reminderTitle, reminderDay } = this.state
         const { onSubmit, handleClose } = this.props
         if (reminderTime === SELECT_TIME 
             || reminderTime === ''
             || reminderTitle === '' 
-            || reminderTime === null) return
+            || reminderTime === null
+            || reminderDay === SELECT_DAY) return
         onSubmit(this.state)
         handleClose()
     }

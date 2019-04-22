@@ -3,13 +3,12 @@ import Day from './Day'
 import '../../styling/Week.css'
 
 const Week = (props) => {
-    const { dayNumbers, calendarYear, onlyCurrentMonthDays, monthArray } = props
+    const { dayNumbers, monthArray } = props
 
     const mapDays = () => {
         return dayNumbers.map((dayNumber, i) =>
             <Day
-                calendarYear={calendarYear}
-                onlyCurrentMonthDays={onlyCurrentMonthDays}
+                {...props}
                 isDisabled={monthArray[i] === null}
                 monthNumber={monthArray[i]}
                 key={dayNumber}

@@ -122,7 +122,7 @@ class Day extends Component {
                     onClick={
                         isDisabled
                             ? null
-                            : (e) => this.handleClick(e, dayNumber, monthNumber)
+                            : (e) => this.handleClick(e)
                     }
                     className={`week-row ${dayBackground}`}>
                     <div className='day-number 1'>{dayNumber}</div>
