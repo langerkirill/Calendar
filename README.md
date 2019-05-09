@@ -5,7 +5,7 @@ It allows you to switch months and add reminders to days. The reminders are stor
 store. Reminders persist on the page, but not through a refresh. I used moment.js for all of 
 the calendar calculations. 
 
-To run this app, clone the project and get to the root of the project in terminal. Then run:
+To run this app, clone the project and get to the calendar-app folder in the project in terminal. Then run:
 
 **npm i**
 
