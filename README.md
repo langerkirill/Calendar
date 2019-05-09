@@ -6,11 +6,11 @@ I used moment.js for all of the calendar day calculations.
 
 To run this app, clone the project and run:
 
-npm i
+**npm i**
 
 After an install, run:
 
-npm start
+**npm start**
 
 The calendar should open up in a local browser.
 
