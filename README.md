@@ -1,14 +1,15 @@
 # Calendar
 
-This project is a calendar made with React and Redux. It allows you to switch months and add reminders to days. 
-The reminders are stored in a Redux store. Reminders persist on the page, but not through a refresh.
-I used moment.js for all of the calendar day calculations. 
+This project is a calendar made with React and Redux. It was bootstrapped with create-react-app.
+It allows you to switch months and add reminders to days. The reminders are stored in a Redux 
+store. Reminders persist on the page, but not through a refresh. I used moment.js for all of 
+the calendar calculations. 
 
-To run this app, clone the project and run:
+To run this app, clone the project and get to the root of the project in terminal. Then run:
 
 **npm i**
 
-After an install, run:
+After the packages install, run:
 
 **npm start**
 
